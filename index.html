@@ -23,29 +23,52 @@
           answer: "Addis Ababa",
         },
       ];
+
+      let currentQuestionIndex = 0;
+
+      // Select elements from HTML
+      const questionElement = document.querySelector("h1");
+      const buttons = document.querySelectorAll("button");
+
+      function loadQuestion() {
+        let currentQuestion = questions[currentQuestionIndex];
+
+        // Set question text
+        questionElement.textContent = currentQuestion.question;
+
+        // Set button texts (only first 3 buttons are answers)
+        buttons[0].textContent = currentQuestion.options[0];
+        buttons[1].textContent = currentQuestion.options[1];
+        buttons[2].textContent = currentQuestion.options[2];
+      }
+
+      // Load first question when page opens
+      loadQuestion();
     </script>
   </head>
   <body class="flex justify-center items-center h-screen w-full">
     <section class="bg-blue-100 max-w-md w-full py-4">
       <div class="flex flex-col items-center">
-        <h1 class="m-4">What is 2+2</h1>
+        <h1 class="m-4 h">What is 2+2</h1>
         <button
-          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-32"
+          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-32 h"
+          id="b1"
         >
           4
         </button>
         <button
-          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-32"
+          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-32 h"
         >
           3
         </button>
         <button
-          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-32"
+          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-32 h"
         >
           9
         </button>
         <button
-          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-32"
+          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-32 h"
+          onclick="loadQuestion()"
         >
           Next
         </button>
