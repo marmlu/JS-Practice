@@ -41,9 +41,12 @@
         buttons[2].textContent = currentQuestion.options[2];
       }
       function checkAnswer(event) {
+        const buttons = document.querySelectorAll("button");
+
         let selectedAnswer = event.target.textContent;
         let correctAnswer = questions[currentQuestionIndex].answer;
 
+        // Highlight
         if (selectedAnswer === correctAnswer) {
           event.target.style.backgroundColor = "green";
           score++;
@@ -51,13 +54,28 @@
           event.target.style.backgroundColor = "red";
         }
 
-        currentQuestionIndex++;
+        // Disable all buttons
+        buttons.forEach((btn) => (btn.disabled = true));
 
-        if (currentQuestionIndex < questions.length) {
-          loadQuestion();
-        } else {
-          showScore();
-        }
+        // Wait before moving to next question
+        setTimeout(() => {
+          currentQuestionIndex++;
+
+          if (currentQuestionIndex < questions.length) {
+            resetButtons();
+            loadQuestion();
+          } else {
+            showScore();
+          }
+        }, 1000); // 1 second delay
+      }
+      function resetButtons() {
+        const buttons = document.querySelectorAll("button");
+
+        buttons.forEach((btn) => {
+          btn.disabled = false;
+          btn.style.backgroundColor = ""; // reset color
+        });
       }
 
       function showScore() {
