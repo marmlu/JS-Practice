@@ -40,7 +40,6 @@
         buttons[1].textContent = currentQuestion.options[1];
         buttons[2].textContent = currentQuestion.options[2];
       }
-
       function checkAnswer(event) {
         let selectedAnswer = event.target.textContent;
         let correctAnswer = questions[currentQuestionIndex].answer;
@@ -48,7 +47,24 @@
         if (selectedAnswer === correctAnswer) {
           score++;
         }
-        alert("Your score is " + score + " out of 3");
+
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < questions.length) {
+          loadQuestion();
+        } else {
+          showScore();
+        }
+      }
+
+      function showScore() {
+        const questionElement = document.querySelector("h1");
+        const buttons = document.querySelectorAll("button");
+
+        questionElement.textContent =
+          "Your score is " + score + " / " + questions.length;
+
+        buttons.forEach((btn) => (btn.style.display = "none"));
       }
 
       function nextQuestion() {
