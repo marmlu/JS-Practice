@@ -48,13 +48,14 @@
         if (selectedAnswer === correctAnswer) {
           score++;
         }
-
-        currentQuestionIndex++;
-        loadQuestion();
+        alert("Your score is " + score + " out of 3");
       }
 
       function nextQuestion() {
         currentQuestionIndex++;
+        if (currentQuestionIndex >= questions.length) {
+          alert("You have finshed the test");
+        }
         loadQuestion();
       }
 
