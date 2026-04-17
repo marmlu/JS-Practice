@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Quiz App</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -27,93 +27,154 @@
 
       let currentQuestionIndex = 0;
       let score = 0;
+      let timer;
+      let timeLeft = 10;
 
       function loadQuestion() {
-        const questionElement = document.querySelector("h1");
-        const buttons = document.querySelectorAll("button");
+        clearInterval(timer);
 
-        let currentQuestion = questions[currentQuestionIndex];
+        const q = questions[currentQuestionIndex];
+        const questionEl = document.getElementById("question");
+        const buttons = document.querySelectorAll(".answer-btn");
 
-        questionElement.textContent = currentQuestion.question;
+        questionEl.textContent = q.question;
 
-        buttons[0].textContent = currentQuestion.options[0];
-        buttons[1].textContent = currentQuestion.options[1];
-        buttons[2].textContent = currentQuestion.options[2];
+        buttons.forEach((btn, i) => {
+          btn.textContent = q.options[i];
+          btn.disabled = false;
+
+          // RESET COLOR (BLUE)
+          btn.style.backgroundColor = "#3b82f6";
+        });
+
+        startTimer();
       }
+
       function checkAnswer(event) {
-        const buttons = document.querySelectorAll("button");
+        clearInterval(timer);
 
-        let selectedAnswer = event.target.textContent;
-        let correctAnswer = questions[currentQuestionIndex].answer;
+        const selected = event.target;
+        const correct = questions[currentQuestionIndex].answer;
+        const buttons = document.querySelectorAll(".answer-btn");
 
-        // Highlight
-        if (selectedAnswer === correctAnswer) {
-          event.target.style.backgroundColor = "green";
+        // RESET ALL FIRST
+        buttons.forEach((btn) => {
+          btn.style.backgroundColor = "#3b82f6";
+        });
+
+        if (selected.textContent === correct) {
+          selected.style.backgroundColor = "green";
           score++;
         } else {
-          event.target.style.backgroundColor = "red";
+          selected.style.backgroundColor = "red";
+
+          // show correct answer
+          buttons.forEach((btn) => {
+            if (btn.textContent === correct) {
+              btn.style.backgroundColor = "green";
+            }
+          });
         }
 
-        // Disable all buttons
+        // disable buttons
         buttons.forEach((btn) => (btn.disabled = true));
 
-        // Wait before moving to next question
         setTimeout(() => {
           currentQuestionIndex++;
 
           if (currentQuestionIndex < questions.length) {
-            resetButtons();
             loadQuestion();
           } else {
             showScore();
           }
-        }, 1000); // 1 second delay
-      }
-      function resetButtons() {
-        const buttons = document.querySelectorAll("button");
-
-        buttons.forEach((btn) => {
-          btn.disabled = false;
-          btn.style.backgroundColor = ""; // reset color
-        });
+        }, 1000);
       }
 
       function showScore() {
-        const questionElement = document.querySelector("h1");
-        const buttons = document.querySelectorAll("button");
+        clearInterval(timer);
 
-        questionElement.textContent =
-          "Your score is " + score + " / " + questions.length;
+        const container = document.getElementById("quiz");
 
-        buttons.forEach((btn) => (btn.style.display = "none"));
+        container.innerHTML = `
+        <h2 class="text-xl font-bold mb-4 text-center">
+          Your score: ${score} / ${questions.length}
+        </h2>
+        <button onclick="restartQuiz()"
+          class="bg-green-500 text-white px-4 py-2 rounded">
+          Restart Quiz
+        </button>
+      `;
+      }
+
+      function restartQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+
+        document.getElementById("quiz").innerHTML = `
+        <h1 id="question" class="text-lg font-semibold text-center"></h1>
+        <p id="timer" class="text-red-500 font-bold">10</p>
+
+        <button class="answer-btn w-full py-2 rounded text-white"
+          onclick="checkAnswer(event)"></button>
+
+        <button class="answer-btn w-full py-2 rounded text-white"
+          onclick="checkAnswer(event)"></button>
+
+        <button class="answer-btn w-full py-2 rounded text-white"
+          onclick="checkAnswer(event)"></button>
+      `;
+
+        loadQuestion();
+      }
+
+      function startTimer() {
+        const timerEl = document.getElementById("timer");
+        timeLeft = 10;
+        timerEl.textContent = timeLeft;
+
+        timer = setInterval(() => {
+          timeLeft--;
+          timerEl.textContent = timeLeft;
+
+          if (timeLeft === 0) {
+            clearInterval(timer);
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+              loadQuestion();
+            } else {
+              showScore();
+            }
+          }
+        }, 1000);
       }
 
       window.onload = loadQuestion;
     </script>
   </head>
-  <body class="flex justify-center items-center h-screen w-full">
-    <section class="bg-blue-100 max-w-md w-full p-4 rounded-xl shadow-xl">
-      <div class="flex flex-col items-center">
-        <h1 class="m-4 h">What is 2+2</h1>
+
+  <body class="flex justify-center items-center h-screen bg-gray-100">
+    <section class="bg-white max-w-md w-full p-6 rounded-2xl shadow-2xl">
+      <div id="quiz" class="flex flex-col gap-4 items-center">
+        <h1 id="question" class="text-lg font-semibold text-center"></h1>
+
+        <p id="timer" class="text-red-500 font-bold">10</p>
+
         <button
-          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-full"
-          id="b1"
+          class="answer-btn w-full py-2 rounded text-white"
           onclick="checkAnswer(event)"
-        >
-          4
-        </button>
+        ></button>
+
         <button
-          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-full"
+          class="answer-btn w-full py-2 rounded text-white"
           onclick="checkAnswer(event)"
-        >
-          3
-        </button>
+        ></button>
+
         <button
-          class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-full"
+          class="answer-btn w-full py-2 rounded text-white"
           onclick="checkAnswer(event)"
-        >
-          9
-        </button>
+        ></button>
       </div>
     </section>
   </body>
