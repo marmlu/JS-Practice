@@ -67,14 +67,6 @@
         buttons.forEach((btn) => (btn.style.display = "none"));
       }
 
-      function nextQuestion() {
-        currentQuestionIndex++;
-        if (currentQuestionIndex >= questions.length) {
-          alert("You have finshed the test");
-        }
-        loadQuestion();
-      }
-
       window.onload = loadQuestion;
     </script>
   </head>
@@ -103,7 +95,6 @@
         </button>
         <button
           class="mx-4 my-2 bg-blue-500 rounded hover:bg-blue-300 p-1 w-32"
-          onclick="nextQuestion()"
         >
           Next
         </button>
