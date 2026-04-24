@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <section class="bg-gray-400 p-3 rounded shadow-lg w-full max-w-sm">
+      <div>
+        <input
+          type="text"
+          id="display"
+          class="w-full text-right p-4 text-2xl border rounded mb-4 text-white bg-gray-800"
+          disabled
+        />
+        <div class="grid grid-cols-4 gap-2">
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('7')"
+            min-h-screen
+          >
+            7
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('8')"
+          >
+            8
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('9')"
+          >
+            9
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendOperator('/')"
+          >
+            /
+          </button>
+
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('4')"
+          >
+            4
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('5')"
+          >
+            5
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('6')"
+          >
+            6
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendOperator('*')"
+          >
+            *
+          </button>
+
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('1')"
+          >
+            1
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('2')"
+          >
+            2
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('3')"
+          >
+            3
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendOperator('-')"
+          >
+            -
+          </button>
+
+          <button
+            class="btn col-span-2 bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendNumber('0')"
+          >
+            0
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="calculate()"
+          >
+            =
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendOperator('+')"
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
