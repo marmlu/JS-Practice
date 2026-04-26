@@ -18,8 +18,16 @@
       function appendOperator(op) {
         const display = document.getElementById("display");
 
+        if (expression === "") return;
+
+        let lastChar = expression[expression.length - 1];
+
+        if ("+-*/".includes(lastChar)) {
+          expression = expression.slice(0, -1);
+        }
+
         expression += op;
-        display.value = expression;
+        document.getElementById("display").value = expression;
       }
 
       function calculate() {
@@ -32,6 +40,10 @@
           display.value = "Error";
           expression = "";
         }
+      }
+      function clearDisplay() {
+        expression = "";
+        document.getElementById("display").value = "";
       }
     </script>
   </head>
@@ -122,10 +134,16 @@
           </button>
 
           <button
-            class="btn col-span-2 bg-gray-600 hover:bg-gray-700 text-white"
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
             onclick="appendNumber('0')"
           >
             0
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="clearDisplay()"
+          >
+            C
           </button>
           <button
             class="btn bg-gray-600 hover:bg-gray-700 text-white"
