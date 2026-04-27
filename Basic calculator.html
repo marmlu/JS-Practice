@@ -45,6 +45,11 @@
         expression = "";
         document.getElementById("display").value = "";
       }
+      function backSpace() {
+        expression = document.getElementById("display").value;
+
+        document.getElementById("display").value = expression.slice(0, -1);
+      }
     </script>
   </head>
   <body class="bg-gray-100 flex items-center justify-center min-h-screen">
@@ -156,6 +161,12 @@
             onclick="appendOperator('+')"
           >
             +
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="backSpace()"
+          >
+            x
           </button>
         </div>
       </div>
