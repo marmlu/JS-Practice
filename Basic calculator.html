@@ -22,7 +22,7 @@
 
         let lastChar = expression[expression.length - 1];
 
-        if ("+-*/".includes(lastChar)) {
+        if ("+-*/.".includes(lastChar)) {
           expression = expression.slice(0, -1);
         }
 
@@ -50,11 +50,18 @@
 
         document.getElementById("display").value = expression.slice(0, -1);
       }
+      function appendDot(dot) {
+        const display = document.getElementById("display");
+        let lastChar = expression[expression.length - 1];
+        if (expression === "" || "+-*/.".includes(lastChar)) return;
+        expression += dot;
+        document.getElementById("display").value = expression;
+      }
       document.addEventListener("keydown", function (event) {
         const key = event.key;
 
         // numbers and operators
-        if (!isNaN(key) || ["+", "-", "*", "/"].includes(key)) {
+        if (!isNaN(key) || ["+", "-", "*", "/", "."].includes(key)) {
           appendNumber(key); // same function your buttons use
         }
         if (["+", "-", "*", "/"].includes(key)) {
@@ -71,6 +78,9 @@
         }
         if (key === "Escape") {
           clearDisplay();
+        }
+        if (key === ".") {
+          appendDot(dot);
         }
       });
     </script>
@@ -190,6 +200,12 @@
             onclick="backSpace()"
           >
             x
+          </button>
+          <button
+            class="btn bg-gray-600 hover:bg-gray-700 text-white"
+            onclick="appendDot('.')"
+          >
+            .
           </button>
         </div>
       </div>
