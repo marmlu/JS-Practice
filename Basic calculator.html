@@ -50,6 +50,29 @@
 
         document.getElementById("display").value = expression.slice(0, -1);
       }
+      document.addEventListener("keydown", function (event) {
+        const key = event.key;
+
+        // numbers and operators
+        if (!isNaN(key) || ["+", "-", "*", "/"].includes(key)) {
+          appendNumber(key); // same function your buttons use
+        }
+        if (["+", "-", "*", "/"].includes(key)) {
+          appendOperator(op);
+        }
+        // Enter → equals
+        if (key === "Enter") {
+          calculate();
+        }
+
+        // Backspace → delete
+        if (key === "Backspace") {
+          backSpace(); // or whatever your delete function is
+        }
+        if (key === "Escape") {
+          clearDisplay();
+        }
+      });
     </script>
   </head>
   <body class="bg-gray-100 flex items-center justify-center min-h-screen">
