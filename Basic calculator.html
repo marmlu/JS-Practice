@@ -5,209 +5,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Basic calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
       let expression = "";
 
-      function appendNumber(num) {
-        const display = document.getElementById("display");
+      function updateDisplay() {
+        document.getElementById("display").value = expression;
+      }
 
-        expression += num; // build string
-        display.value = expression;
+      function appendNumber(num) {
+        expression += num;
+        updateDisplay();
       }
 
       function appendOperator(op) {
-        const display = document.getElementById("display");
-
         if (expression === "") return;
 
         let lastChar = expression[expression.length - 1];
 
-        if ("+-*/.".includes(lastChar)) {
+        if ("+-*/".includes(lastChar)) {
           expression = expression.slice(0, -1);
         }
 
         expression += op;
-        document.getElementById("display").value = expression;
+        updateDisplay();
+      }
+
+      function appendDot() {
+        // split by operators → get current number
+        let parts = expression.split(/[+\-*/]/);
+        let currentNumber = parts[parts.length - 1];
+
+        // prevent multiple dots in same number
+        if (currentNumber.includes(".")) return;
+
+        // prevent starting with dot
+        if (currentNumber === "") {
+          expression += "0.";
+        } else {
+          expression += ".";
+        }
+
+        updateDisplay();
       }
 
       function calculate() {
-        const display = document.getElementById("display");
-
         try {
-          expression = eval(expression); // calculate
-          display.value = expression;
+          expression = eval(expression).toString();
+          updateDisplay();
         } catch {
-          display.value = "Error";
           expression = "";
+          document.getElementById("display").value = "Error";
         }
       }
+
       function clearDisplay() {
         expression = "";
-        document.getElementById("display").value = "";
+        updateDisplay();
       }
-      function backSpace() {
-        expression = document.getElementById("display").value;
 
-        document.getElementById("display").value = expression.slice(0, -1);
-      }
-      function appendDot(dot) {
-        const display = document.getElementById("display");
-        let lastChar = expression[expression.length - 1];
-        if (expression === "" || "+-*/.".includes(lastChar)) return;
-        expression += dot;
-        document.getElementById("display").value = expression;
+      function backSpace() {
+        expression = expression.slice(0, -1);
+        updateDisplay();
       }
       document.addEventListener("keydown", function (event) {
         const key = event.key;
-
-        // numbers and operators
-        if (!isNaN(key) || ["+", "-", "*", "/", "."].includes(key)) {
-          appendNumber(key); // same function your buttons use
-        }
-        if (["+", "-", "*", "/"].includes(key)) {
-          appendOperator(op);
-        }
-        // Enter → equals
-        if (key === "Enter") {
+        if (!isNaN(key) && key !== " ") {
+          appendNumber(key);
+        } else if (["+", "-", "*", "/"].includes(key)) {
+          appendOperator(key);
+        } else if (key === ".") {
+          appendDot();
+        } else if (key === "Enter") {
           calculate();
-        }
-
-        // Backspace → delete
-        if (key === "Backspace") {
-          backSpace(); // or whatever your delete function is
-        }
-        if (key === "Escape") {
+        } else if (key === "Backspace") {
+          backSpace();
+        } else if (key === "Escape") {
           clearDisplay();
-        }
-        if (key === ".") {
-          appendDot(dot);
         }
       });
     </script>
   </head>
+
   <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <section class="bg-gray-400 p-3 rounded shadow-lg w-full max-w-sm">
-      <div>
-        <input
-          type="text"
-          id="display"
-          class="w-full text-right p-4 text-2xl border rounded mb-4 text-white bg-gray-800"
-          disabled
-        />
-        <div class="grid grid-cols-4 gap-2">
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('7')"
-            min-h-screen
-          >
-            7
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('8')"
-          >
-            8
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('9')"
-          >
-            9
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendOperator('/')"
-          >
-            /
-          </button>
+    <section class="bg-gray-400 p-4 rounded shadow-lg w-full max-w-sm">
+      <input
+        type="text"
+        id="display"
+        class="w-full text-right p-4 text-2xl border rounded mb-4 text-white bg-gray-800"
+        disabled
+      />
 
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('4')"
-          >
-            4
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('5')"
-          >
-            5
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('6')"
-          >
-            6
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendOperator('*')"
-          >
-            *
-          </button>
+      <div class="grid grid-cols-4 gap-2">
+        <button onclick="appendNumber('7')" class="btn bg-gray-600 text-white">
+          7
+        </button>
+        <button onclick="appendNumber('8')" class="btn bg-gray-600 text-white">
+          8
+        </button>
+        <button onclick="appendNumber('9')" class="btn bg-gray-600 text-white">
+          9
+        </button>
+        <button
+          onclick="appendOperator('/')"
+          class="btn bg-orange-500 text-white"
+        >
+          /
+        </button>
 
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('1')"
-          >
-            1
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('2')"
-          >
-            2
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('3')"
-          >
-            3
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendOperator('-')"
-          >
-            -
-          </button>
+        <button onclick="appendNumber('4')" class="btn bg-gray-600 text-white">
+          4
+        </button>
+        <button onclick="appendNumber('5')" class="btn bg-gray-600 text-white">
+          5
+        </button>
+        <button onclick="appendNumber('6')" class="btn bg-gray-600 text-white">
+          6
+        </button>
+        <button
+          onclick="appendOperator('*')"
+          class="btn bg-orange-500 text-white"
+        >
+          *
+        </button>
 
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendNumber('0')"
-          >
-            0
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="clearDisplay()"
-          >
-            C
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="calculate()"
-          >
-            =
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendOperator('+')"
-          >
-            +
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="backSpace()"
-          >
-            x
-          </button>
-          <button
-            class="btn bg-gray-600 hover:bg-gray-700 text-white"
-            onclick="appendDot('.')"
-          >
-            .
-          </button>
-        </div>
+        <button onclick="appendNumber('1')" class="btn bg-gray-600 text-white">
+          1
+        </button>
+        <button onclick="appendNumber('2')" class="btn bg-gray-600 text-white">
+          2
+        </button>
+        <button onclick="appendNumber('3')" class="btn bg-gray-600 text-white">
+          3
+        </button>
+        <button
+          onclick="appendOperator('-')"
+          class="btn bg-orange-500 text-white"
+        >
+          -
+        </button>
+
+        <button
+          onclick="appendNumber('0')"
+          class="btn bg-gray-600 text-white col-span-2"
+        >
+          0
+        </button>
+        <button onclick="appendDot()" class="btn bg-gray-600 text-white">
+          .
+        </button>
+        <button
+          onclick="appendOperator('+')"
+          class="btn bg-orange-500 text-white"
+        >
+          +
+        </button>
+
+        <button
+          onclick="clearDisplay()"
+          class="btn bg-red-500 text-white col-span-2"
+        >
+          C
+        </button>
+        <button onclick="backSpace()" class="btn bg-yellow-500 text-white">
+          ⌫
+        </button>
+        <button onclick="calculate()" class="btn bg-green-500 text-white">
+          =
+        </button>
       </div>
     </section>
   </body>
