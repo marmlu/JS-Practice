@@ -8,6 +8,7 @@
 
     <script>
       let expression = "";
+      let historyList = [];
 
       function updateDisplay() {
         document.getElementById("display").value = expression;
@@ -51,7 +52,10 @@
 
       function calculate() {
         try {
-          expression = eval(expression).toString();
+          let result = eval(expression).toString();
+          let entry = expression + "=" + result;
+          historyList.push(entry);
+
           updateDisplay();
         } catch {
           expression = "";
@@ -67,6 +71,11 @@
       function backSpace() {
         expression = expression.slice(0, -1);
         updateDisplay();
+      }
+      function history() {
+        let history = expression.split(/[""]/);
+        let result = eval(expression).toString();
+        history = expression + "=" + result;
       }
       document.addEventListener("keydown", function (event) {
         const key = event.key;
@@ -161,11 +170,11 @@
           +
         </button>
 
-        <button
-          onclick="clearDisplay()"
-          class="btn bg-red-500 text-white col-span-2"
-        >
+        <button onclick="clearDisplay()" class="btn bg-red-500 text-white">
           C
+        </button>
+        <button onclick="history()" class="btn bg-red-500 text-white">
+          history
         </button>
         <button onclick="backSpace()" class="btn bg-yellow-500 text-white">
           ⌫
