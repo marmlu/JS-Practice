@@ -16,6 +16,7 @@
 
       function appendNumber(num) {
         expression += num;
+
         updateDisplay();
       }
 
@@ -43,6 +44,25 @@
         }
 
         updateDisplay();
+      }
+      function appendBracket(bra) {
+        const display = document.getElementById("display");
+
+        let lastChar = expression[expression.length - 1];
+        let openCount = (expression.match(/\(/g) || []).length;
+        let closeCount = (expression.match(/\)/g) || []).length;
+        if (bra === "(") {
+          if (expression === "" || "+-*/(".includes(lastChar)) {
+            expression += "(";
+          }
+        }
+        if (bra === ")") {
+          if (openCount > closeCount && !"+-*/(".includes(lastChar)) {
+            expression += ")";
+          }
+        }
+
+        display.value = expression;
       }
 
       function calculate() {
@@ -201,10 +221,10 @@
         >
           -
         </button>
-        <button onclick="appendNumber('(')" class="btn bg-gray-600 text-white">
+        <button onclick="appendBracket('(')" class="btn bg-gray-600 text-white">
           (
         </button>
-        <button onclick="appendNumber(')')" class="btn bg-gray-600 text-white">
+        <button onclick="appendBracket(')')" class="btn bg-gray-600 text-white">
           )
         </button>
 
