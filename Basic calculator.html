@@ -116,6 +116,15 @@
           document.getElementById("display").value = "Error";
         }
       }
+      function percent(per) {
+        let lastChar = expression[expression.length - 1];
+        if (!isNaN(lastChar)) {
+          expression += per;
+        } else {
+          return;
+        }
+        updateDisplay();
+      }
       function clearDisplay() {
         expression = "";
         updateDisplay();
@@ -250,6 +259,9 @@
         </button>
         <button onclick="calculate()" class="btn bg-green-500 text-white">
           =
+        </button>
+        <button onclick="percent('%')" class="btn bg-green-500 text-white">
+          %
         </button>
         <div
           id="history"
