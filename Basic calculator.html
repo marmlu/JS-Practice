@@ -68,7 +68,7 @@
       function calculate() {
         try {
           const display = document.getElementById("display");
-          let arr = expression.match(/\d+(\.\d+)?|[+\-*/]/g);
+          let arr = expression.match(/\d+(\.\d+)?|[+\-*/%]/g);
 
           if (!arr) return;
           arr = arr.map((item) => {
@@ -90,11 +90,13 @@
           }
 
           for (let i = 0; i < arr.length; i++) {
-            if (arr[i] === "+" || arr[i] === "-") {
+            if (arr[i] === "+" || arr[i] === "-" || arr[i] === "%") {
               let result;
 
               if (arr[i] === "+") {
                 result = arr[i - 1] + arr[i + 1];
+              } else if (arr[i] === "%") {
+                result = arr[i - 1] / 100;
               } else {
                 result = arr[i - 1] - arr[i + 1];
               }
