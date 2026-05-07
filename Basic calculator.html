@@ -68,14 +68,19 @@
       function calculate() {
         try {
           const display = document.getElementById("display");
-          let arr = expression.match(/\d+(\.\d+)?|[+\-*/%]/g);
+          let arr = expression.match(/\d+(\.\d+)?|[+\-*/%^]/g);
 
           if (!arr) return;
           arr = arr.map((item) => {
             return isNaN(item) ? item : Number(item);
           });
           for (let i = 0; i < arr.length; i++) {
-            if (arr[i] === "*" || arr[i] === "/" || arr[i] === "%") {
+            if (
+              arr[i] === "*" ||
+              arr[i] === "/" ||
+              arr[i] === "%" ||
+              arr[i] === "^"
+            ) {
               let result;
 
               if (arr[i] === "*") {
@@ -83,6 +88,8 @@
               } else if (arr[i] === "%") {
                 result = arr[i - 1] / 100;
                 arr.splice(i - 1, 2, result);
+              } else if (arr[i] === "^") {
+                result = Number(arr[i - 1]) ** Number(arr[i + 1]);
               } else {
                 result = arr[i - 1] / arr[i + 1];
               }
@@ -123,6 +130,15 @@
         let lastChar = expression[expression.length - 1];
         if (!isNaN(lastChar)) {
           expression += per;
+        } else {
+          return;
+        }
+        updateDisplay();
+      }
+      function power(pow) {
+        let lastChar = expression[expression.length - 1];
+        if (!isNaN(lastChar)) {
+          expression += pow;
         } else {
           return;
         }
@@ -260,11 +276,18 @@
         <button onclick="backSpace()" class="btn bg-yellow-500 text-white">
           ⌫
         </button>
-        <button onclick="calculate()" class="btn bg-green-500 text-white">
-          =
-        </button>
         <button onclick="percent('%')" class="btn bg-green-500 text-white">
           %
+        </button>
+
+        <button onclick="power('^')" class="btn bg-green-500 text-white">
+          ^
+        </button>
+        <button
+          onclick="calculate()"
+          class="btn bg-green-500 text-white col-span-2"
+        >
+          =
         </button>
         <div
           id="history"
