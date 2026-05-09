@@ -21,6 +21,7 @@
         if (expression === "") return;
 
         let lastChar = expression[expression.length - 1];
+        if (lastChar === "(") return;
         if ("+-*/%^".includes(lastChar)) {
           expression = expression.slice(0, -1);
         }
