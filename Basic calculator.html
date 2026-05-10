@@ -10,18 +10,21 @@
     <script>
       let expression = "";
       let historyList = [];
+
       function updateDisplay() {
         document.getElementById("display").value = expression;
       }
+
       function appendNumber(num) {
         expression += num;
         updateDisplay();
       }
+
       function appendOperator(op) {
         if (expression === "") return;
 
         let lastChar = expression[expression.length - 1];
-        if (lastChar === "(") return;
+
         if ("+-*/%^".includes(lastChar)) {
           expression = expression.slice(0, -1);
         }
@@ -29,10 +32,14 @@
         expression += op;
         updateDisplay();
       }
+
       function appendDot() {
         let parts = expression.split(/[+\-*/%^()]/);
+
         let currentNumber = parts[parts.length - 1];
+
         if (currentNumber.includes(".")) return;
+
         if (currentNumber === "") {
           expression += "0.";
         } else {
@@ -55,6 +62,7 @@
             expression += "(";
           }
         }
+
         if (bra === ")") {
           if (openCount > closeCount && !"+-*/%^(".includes(lastChar)) {
             expression += ")";
@@ -67,7 +75,7 @@
       function percent() {
         let lastChar = expression[expression.length - 1];
 
-        if (!isNaN(lastChar)) {
+        if (!isNaN(lastChar) || lastChar === ")") {
           expression += "%";
         }
 
@@ -104,12 +112,14 @@
 
           p.textContent = item;
 
-          p.className = "cursor-pointer hover:bg-gray-200 p-1 rounded";
+          p.className =
+            "cursor-pointer hover:bg-gray-200 p-1 rounded transition";
 
           p.onclick = () => {
             let parts = item.split("=");
 
-            expression = parts[1];
+            expression = parts[1].trim();
+
             updateDisplay();
           };
 
@@ -120,9 +130,20 @@
       function calculate() {
         try {
           let exp = expression;
+          let openCount = (exp.match(/\(/g) || []).length;
+          let closeCount = (exp.match(/\)/g) || []).length;
+          while (openCount > closeCount) {
+            exp += ")";
+            closeCount++;
+          }
+          exp = exp.replace(
+            /(\d+(\.\d+)?)([+\-])(\d+(\.\d+)?)%/g,
+            function (match, firstNum, d1, operator, percentNum) {
+              return `${firstNum}${operator}(${firstNum}*${percentNum}/100)`;
+            },
+          );
 
           exp = exp.replace(/(\d+(\.\d+)?)%/g, "($1/100)");
-
           exp = exp.replace(/\^/g, "**");
 
           let result = eval(exp);
@@ -181,6 +202,7 @@
         class="w-full text-right p-4 text-3xl rounded mb-4 bg-black text-white"
         disabled
       />
+
       <div class="grid grid-cols-4 gap-2">
         <!-- ROW 1 -->
         <button
@@ -210,6 +232,8 @@
         >
           )
         </button>
+
+        <!-- ROW 2 -->
         <button
           onclick="appendNumber('7')"
           class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
@@ -237,6 +261,8 @@
         >
           /
         </button>
+
+        <!-- ROW 3 -->
         <button
           onclick="appendNumber('4')"
           class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
@@ -264,6 +290,8 @@
         >
           *
         </button>
+
+        <!-- ROW 4 -->
         <button
           onclick="appendNumber('1')"
           class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
@@ -291,6 +319,8 @@
         >
           -
         </button>
+
+        <!-- ROW 5 -->
         <button
           onclick="percent()"
           class="bg-green-500 hover:bg-green-600 text-white p-3 rounded"
@@ -318,6 +348,8 @@
         >
           +
         </button>
+
+        <!-- ROW 6 -->
         <button
           onclick="power()"
           class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded"
@@ -332,6 +364,7 @@
           =
         </button>
       </div>
+
       <div
         id="history"
         class="mt-4 bg-white rounded p-2 max-h-40 overflow-y-auto text-sm"
