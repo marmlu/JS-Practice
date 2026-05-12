@@ -1,11 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Advanced Calculator</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
 
     <script>
       let expression = "";
@@ -191,11 +196,46 @@
           appendBracket(key);
         }
       });
+      function toggleTheme() {
+        document.documentElement.classList.toggle("dark");
+
+        let btn = document.getElementById("themeBtn");
+
+        if (document.documentElement.classList.contains("dark")) {
+          btn.innerHTML = "☀️";
+          localStorage.setItem("theme", "dark");
+        } else {
+          btn.innerHTML = "🌙";
+          localStorage.setItem("theme", "light");
+        }
+      }
+
+      window.onload = function () {
+        let btn = document.getElementById("themeBtn");
+
+        if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark");
+          btn.innerHTML = "☀️";
+        } else {
+          btn.innerHTML = "🌙";
+        }
+      };
     </script>
   </head>
 
-  <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
-    <section class="bg-gray-800 p-5 rounded-2xl shadow-2xl w-full max-w-md">
+  <body
+    class="bg-white text-black dark:bg-gray-900 dark:text-white transition-all duration-300 min-h-screen flex justify-center items-center"
+  >
+    <button
+      id="themeBtn"
+      onclick="toggleTheme()"
+      class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded"
+    >
+      🌙
+    </button>
+    <section
+      class="bg-gray-400 dark:bg-gray-800 text-black dark:text-white p-5 rounded-2xl shadow-2xl w-full max-w-md"
+    >
       <input
         type="text"
         id="display"
@@ -204,7 +244,6 @@
       />
 
       <div class="grid grid-cols-4 gap-2">
-        <!-- ROW 1 -->
         <button
           onclick="clearDisplay()"
           class="bg-red-500 hover:bg-red-600 text-white p-3 rounded"
@@ -233,7 +272,6 @@
           )
         </button>
 
-        <!-- ROW 2 -->
         <button
           onclick="appendNumber('7')"
           class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
@@ -262,7 +300,6 @@
           /
         </button>
 
-        <!-- ROW 3 -->
         <button
           onclick="appendNumber('4')"
           class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
@@ -291,7 +328,6 @@
           *
         </button>
 
-        <!-- ROW 4 -->
         <button
           onclick="appendNumber('1')"
           class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
@@ -320,7 +356,6 @@
           -
         </button>
 
-        <!-- ROW 5 -->
         <button
           onclick="percent()"
           class="bg-green-500 hover:bg-green-600 text-white p-3 rounded"
@@ -348,8 +383,6 @@
         >
           +
         </button>
-
-        <!-- ROW 6 -->
         <button
           onclick="power()"
           class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded"
@@ -367,7 +400,7 @@
 
       <div
         id="history"
-        class="mt-4 bg-white rounded p-2 max-h-40 overflow-y-auto text-sm"
+        class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white mt-4 rounded p-2 max-h-40 overflow-y-auto text-sm"
       ></div>
     </section>
   </body>
