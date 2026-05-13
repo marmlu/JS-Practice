@@ -118,7 +118,7 @@
           p.textContent = item;
 
           p.className =
-            "cursor-pointer hover:bg-gray-200 p-1 rounded transition";
+            "cursor-pointer hover:bg-gray-200 p-1 rounded transition-all duration-200";
 
           p.onclick = () => {
             let parts = item.split("=");
@@ -229,170 +229,170 @@
     <button
       id="themeBtn"
       onclick="toggleTheme()"
-      class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded"
+      class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded active:scale-95 transition-all duration-150"
     >
       🌙
     </button>
     <section
-      class="bg-gray-400 dark:bg-gray-800 text-black dark:text-white p-5 rounded-2xl shadow-2xl w-full max-w-md"
+      class="dark:bg-gray-800 text-black dark:text-white p-5 rounded-2xl shadow-2xl w-full max-w-md shadow-2xl bg-white/10 backdrop-blur-md border border-white/20"
     >
       <input
         type="text"
         id="display"
-        class="w-full text-right p-4 text-3xl rounded mb-4 bg-black text-white"
+        class="w-full text-right p-4 text-3xl rounded mb-4 bg-black text-green-400 shadow-inner active:scale-95 transition-all duration-150"
         disabled
       />
 
       <div class="grid grid-cols-4 gap-2">
         <button
           onclick="clearDisplay()"
-          class="bg-red-500 hover:bg-red-600 text-white p-3 rounded"
+          class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           C
         </button>
 
         <button
           onclick="backSpace()"
-          class="bg-yellow-500 hover:bg-yellow-600 text-white p-3 rounded"
+          class="bg-yellow-500 hover:bg-yellow-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           ⌫
         </button>
 
         <button
           onclick="appendBracket('(')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           (
         </button>
 
         <button
           onclick="appendBracket(')')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           )
         </button>
 
         <button
           onclick="appendNumber('7')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           7
         </button>
 
         <button
           onclick="appendNumber('8')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           8
         </button>
 
         <button
           onclick="appendNumber('9')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           9
         </button>
 
         <button
           onclick="appendOperator('/')"
-          class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded"
+          class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           /
         </button>
 
         <button
           onclick="appendNumber('4')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           4
         </button>
 
         <button
           onclick="appendNumber('5')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           5
         </button>
 
         <button
           onclick="appendNumber('6')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           6
         </button>
 
         <button
           onclick="appendOperator('*')"
-          class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded"
+          class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           *
         </button>
 
         <button
           onclick="appendNumber('1')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           1
         </button>
 
         <button
           onclick="appendNumber('2')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           2
         </button>
 
         <button
           onclick="appendNumber('3')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           3
         </button>
 
         <button
           onclick="appendOperator('-')"
-          class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded"
+          class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           -
         </button>
 
         <button
           onclick="percent()"
-          class="bg-green-500 hover:bg-green-600 text-white p-3 rounded"
+          class="bg-green-500 hover:bg-green-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           %
         </button>
 
         <button
           onclick="appendNumber('0')"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           0
         </button>
 
         <button
           onclick="appendDot()"
-          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded"
+          class="bg-gray-600 hover:bg-gray-700 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           .
         </button>
 
         <button
           onclick="appendOperator('+')"
-          class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded"
+          class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           +
         </button>
         <button
           onclick="power()"
-          class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded"
+          class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           ^
         </button>
 
         <button
           onclick="calculate()"
-          class="bg-green-600 hover:bg-green-700 text-white p-3 rounded col-span-3"
+          class="bg-green-600 hover:bg-green-700 text-white p-3 rounded-2xl col-span-3 active:scale-95 transition-all duration-150"
         >
           =
         </button>
@@ -400,7 +400,7 @@
 
       <div
         id="history"
-        class="bg-gray-100 dark:bg-gray-700 text-black dark:text-white mt-4 rounded p-2 max-h-40 overflow-y-auto text-sm"
+        class="bg-gray-100 dark:bg-gray-700 text-black dark:text-black mt-4 rounded-2xl p-2 max-h-40 overflow-y-auto text-sm active:scale-95 transition-all duration-200 hover:translate-x-1"
       ></div>
     </section>
   </body>
