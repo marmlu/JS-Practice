@@ -141,6 +141,15 @@
             return;
           }
           result = Math.sqrt(result);
+          let entry = expression + " = " + result;
+
+          historyList.push(entry);
+
+          if (historyList.length > 10) {
+            historyList.shift();
+          }
+
+          updateHistoryUI();
           expression = result.toString();
           updateDisplay();
         } catch {
