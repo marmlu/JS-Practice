@@ -131,31 +131,15 @@
           historyContainer.appendChild(p);
         });
       }
-      function squareRoot() {
-        try {
-          if (expression === "") return;
-          let result = eval(expression);
-          if (result < 0) {
-            document.getElementById("display").value = "Error";
-            expression = "";
-            return;
-          }
-          result = Math.sqrt(result);
-          let entry = expression + " = " + result;
-
-          historyList.push(entry);
-
-          if (historyList.length > 10) {
-            historyList.shift();
-          }
-
-          updateHistoryUI();
-          expression = result.toString();
-          updateDisplay();
-        } catch {
-          expression = "";
-          document.getElementById("display").value = "Error";
+      function appendSquareRoot() {
+        let lastChar = expression[expression.length - 1];
+        if ("+-*/(^".includes(lastChar) || expression === "") {
+          expression += "√";
+        } else {
+          expression += "*√";
         }
+
+        updateDisplay();
       }
 
       function calculate() {
@@ -173,6 +157,8 @@
               return `${firstNum}${operator}(${firstNum}*${percentNum}/100)`;
             },
           );
+
+          exp = exp.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
 
           exp = exp.replace(/(\d+(\.\d+)?)%/g, "($1/100)");
           exp = exp.replace(/\^/g, "**");
@@ -278,7 +264,7 @@
         </button>
 
         <button
-          onclick="squareRoot()"
+          onclick="appendSquareRoot()"
           class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           √
