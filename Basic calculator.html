@@ -143,8 +143,10 @@
       }
       function trigonometric(trig) {
         let lastChar = expression[expression.length - 1];
-        if ("+-*/(^".includes(lastChar) || expression === "") {
-          expression += trig;
+        if (!isNaN(lastChar) || lastChar === ")") {
+          expression += "*" + trig;
+        } else {
+          expression = trig;
         }
         updateDisplay();
       }
@@ -165,9 +167,23 @@
             },
           );
 
-          exp = exp.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
-          exp = exp.replace(/sin(\d+(\.\d+)?)/g, "Math.sin($1)");
-          exp = exp.replace(/cos(\d+(\.\d+)?)/g, "Math.cos($1)");
+          exp = exp.replace(/sin\(([^)]+)\)/g, function (match, angle) {
+            return Math.sin((angle * Math.PI) / 180);
+          });
+          exp = exp.replace(
+            /cos\(([^)]+)\)/g,
+
+            function (match, angle) {
+              return Math.cos((angle * Math.PI) / 180);
+            },
+          );
+          exp = exp.replace(
+            /tan\(([^)]+)\)/g,
+
+            function (match, angle) {
+              return Math.tan((angle * Math.PI) / 180);
+            },
+          );
           exp = exp.replace(/tan(\d+(\.\d+)?)/g, "Math.tan($1)");
           exp = exp.replace(/(\d+(\.\d+)?)%/g, "($1/100)");
           exp = exp.replace(/\^/g, "**");
@@ -279,19 +295,19 @@
           √
         </button>
         <button
-          onclick="trigonometric('sin')"
+          onclick="trigonometric('sin(')"
           class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           sin
         </button>
         <button
-          onclick="trigonometric('cos')"
+          onclick="trigonometric('cos(')"
           class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           cos
         </button>
         <button
-          onclick="trigonometric('tan')"
+          onclick="trigonometric('tan(')"
           class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           tan
