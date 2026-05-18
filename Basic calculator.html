@@ -141,6 +141,13 @@
 
         updateDisplay();
       }
+      function trigonometric(trig) {
+        let lastChar = expression[expression.length - 1];
+        if ("+-*/(^".includes(lastChar) || expression === "") {
+          expression += trig;
+        }
+        updateDisplay();
+      }
 
       function calculate() {
         try {
@@ -159,7 +166,9 @@
           );
 
           exp = exp.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
-
+          exp = exp.replace(/sin(\d+(\.\d+)?)/g, "Math.sin($1)");
+          exp = exp.replace(/cos(\d+(\.\d+)?)/g, "Math.cos($1)");
+          exp = exp.replace(/tan(\d+(\.\d+)?)/g, "Math.tan($1)");
           exp = exp.replace(/(\d+(\.\d+)?)%/g, "($1/100)");
           exp = exp.replace(/\^/g, "**");
 
@@ -264,10 +273,28 @@
         </button>
 
         <button
-          onclick="appendSquareRoot()"
+          onclick=""
           class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           √
+        </button>
+        <button
+          onclick="trigonometric('sin')"
+          class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
+        >
+          sin
+        </button>
+        <button
+          onclick="trigonometric('cos')"
+          class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
+        >
+          cos
+        </button>
+        <button
+          onclick="trigonometric('tan')"
+          class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
+        >
+          tan
         </button>
 
         <button
