@@ -150,7 +150,17 @@
         }
         updateDisplay();
       }
-
+      function appendLog(LOG) {
+        let lastChar = expression[expression.length - 1];
+        if (
+          (expression = "" || "+,-,*,√,/cos(,sin(,tan(,(".includes(lastChar))
+        ) {
+          expression += LOG;
+        } else {
+          expression += "*" + LOG;
+        }
+        updateDisplay();
+      }
       function calculate() {
         try {
           let exp = expression;
@@ -312,7 +322,12 @@
         >
           tan
         </button>
-
+        <button
+          onclick="appendLog('log(')"
+          class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
+        >
+          log
+        </button>
         <button
           onclick="backSpace()"
           class="bg-yellow-500 hover:bg-yellow-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
