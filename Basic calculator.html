@@ -172,6 +172,13 @@
             closeCount++;
           }
           exp = exp.replace(
+            /log\(([^)]+)\)/g,
+
+            function (match, num) {
+              return Math.log10(num);
+            },
+          );
+          exp = exp.replace(
             /(\d+(\.\d+)?)([+\-])(\d+(\.\d+)?)%/g,
             function (match, firstNum, d1, operator, percentNum) {
               return `${firstNum}${operator}(${firstNum}*${percentNum}/100)`;
