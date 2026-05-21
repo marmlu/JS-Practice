@@ -153,7 +153,8 @@
       function appendLog(LOG) {
         let lastChar = expression[expression.length - 1];
         if (
-          (expression = "" || "+,-,*,√,/cos(,sin(,tan(,(".includes(lastChar))
+          expression === "" ||
+          "+,-,*,√,/cos(,sin(,tan(,(".includes(lastChar)
         ) {
           expression += LOG;
         } else {
