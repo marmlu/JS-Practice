@@ -146,16 +146,13 @@
         if (!isNaN(lastChar) || lastChar === ")") {
           expression += "*" + trig;
         } else {
-          expression = trig;
+          expression += trig;
         }
         updateDisplay();
       }
       function appendLog(LOG) {
         let lastChar = expression[expression.length - 1];
-        if (
-          expression === "" ||
-          "+,-,*,√,/cos(,sin(,tan(,(".includes(lastChar)
-        ) {
+        if (expression === "" || "+-*/^(√".includes(lastChar)) {
           expression += LOG;
         } else {
           expression += "*" + LOG;
@@ -205,6 +202,7 @@
           exp = exp.replace(/tan(\d+(\.\d+)?)/g, "Math.tan($1)");
           exp = exp.replace(/(\d+(\.\d+)?)%/g, "($1/100)");
           exp = exp.replace(/\^/g, "**");
+          exp = exp.replace(/√(\d+(\.\d+)?)/g, "Math.sqrt($1)");
 
           let result = eval(exp);
 
@@ -307,7 +305,7 @@
         </button>
 
         <button
-          onclick=""
+          onclick="appendSquareRoot()"
           class="bg-red-500 hover:bg-red-600 text-white p-3 rounded-2xl active:scale-95 transition-all duration-150"
         >
           √
