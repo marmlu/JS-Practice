@@ -3,44 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To-Do-List app</title>
+    <title>To-Do List App</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="flex justify-center items-center min-h-screen">
-    <section>
-      <div class="flex justify-center items-center">
+
+  <body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+    <section class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-4xl">
+      <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">
+        To-Do List
+      </h1>
+
+      <div class="flex flex-col sm:flex-row items-center gap-4 mb-8">
         <input
-          class="w-max focus:outline-none focus:ring-2 focus:ring-green-400 p-4 bg-gray-200 rounded-lg m-5"
-          placeholder="Enter task"
           type="text"
+          placeholder="Enter a task..."
+          class="w-full p-4 rounded-xl bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-300"
         />
+
         <button
-          class="p-2 px-4 bg-green-500 rounded-xl hover:bg-green-300 font-semibold text-white"
+          class="w-full sm:w-auto bg-green-500 hover:bg-green-400 text-white font-semibold px-6 py-4 rounded-xl transition duration-300"
         >
           Add
         </button>
       </div>
-      <div>
-        <ul
-          class="task-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+
+      <ul
+        class="task-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
+        <li
+          class="bg-gray-500 text-white p-5 rounded-xl shadow-md hover:bg-gray-400 transition duration-300 cursor-pointer"
         >
-          <li
-            class="bg-gray-500 border rounded-lg p-5 text-white hover:bg-gray-400"
-          >
-            Study JavaScript
-          </li>
-          <li
-            class="bg-gray-500 border rounded-lg p-5 text-white hover:bg-gray-400"
-          >
-            Read DOM Notes
-          </li>
-          <li
-            class="bg-gray-500 border rounded-lg p-5 text-white hover:bg-gray-400"
-          >
-            Build Project
-          </li>
-        </ul>
-      </div>
+          Study JavaScript
+        </li>
+
+        <li
+          class="bg-gray-500 text-white p-5 rounded-xl shadow-md hover:bg-gray-400 transition duration-300 cursor-pointer"
+        >
+          Read DOM Notes
+        </li>
+
+        <li
+          class="bg-gray-500 text-white p-5 rounded-xl shadow-md hover:bg-gray-400 transition duration-300 cursor-pointer"
+        >
+          Build Project
+        </li>
+
+        <li
+          class="bg-gray-400 text-white p-5 rounded-xl shadow-md line-through opacity-60 cursor-pointer"
+        >
+          Completed Task Example
+        </li>
+      </ul>
     </section>
   </body>
 </html>
