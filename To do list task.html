@@ -6,15 +6,41 @@
     <title>To-Do-List app</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="flex justify-center items-center">
-    <input
-      class="w-max focus:outline-none focus:ring-2 focus:ring-green-400 p-4 bg-gray-200 rounded-lg m-5"
-      holder="Enter the task you want to do"
-      type="text"
-    />
-    <button class="p-2 px-4 bg-green-500 rounded-xl hover:bg-green-300">
-      Add
-    </button>
-    <ul class="task-list"></ul>
+  <body class="flex justify-center items-center min-h-screen">
+    <section>
+      <div class="flex justify-center items-center">
+        <input
+          class="w-max focus:outline-none focus:ring-2 focus:ring-green-400 p-4 bg-gray-200 rounded-lg m-5"
+          placeholder="Enter task"
+          type="text"
+        />
+        <button
+          class="p-2 px-4 bg-green-500 rounded-xl hover:bg-green-300 font-semibold text-white"
+        >
+          Add
+        </button>
+      </div>
+      <div>
+        <ul
+          class="task-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <li
+            class="bg-gray-500 border rounded-lg p-5 text-white hover:bg-gray-400"
+          >
+            Study JavaScript
+          </li>
+          <li
+            class="bg-gray-500 border rounded-lg p-5 text-white hover:bg-gray-400"
+          >
+            Read DOM Notes
+          </li>
+          <li
+            class="bg-gray-500 border rounded-lg p-5 text-white hover:bg-gray-400"
+          >
+            Build Project
+          </li>
+        </ul>
+      </div>
+    </section>
   </body>
 </html>
