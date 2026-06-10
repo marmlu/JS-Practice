@@ -25,8 +25,12 @@ function addTask() {
   });
   li.appendChild(delBtn);
   taskList.appendChild(li);
-  console.log("Added:", valueStore);
+  li.addEventListener("click", function () {
+    li.classList.toggle("line-through");
+    li.classList.toggle("opacity-50");
+  });
   taskInput.value = "";
+  console.log("Added:", valueStore);
 }
 button.addEventListener("click", addTask);
 taskInput.addEventListener("keydown", function (event) {
