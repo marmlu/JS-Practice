@@ -1,3 +1,4 @@
+const tasks = [];
 const taskInput = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
@@ -26,6 +27,8 @@ function addTask() {
   });
   li.appendChild(delBtn);
   taskList.appendChild(li);
+  tasks.push(taskText);
+  localStorage.setItem("tasks", JSON.strigify(tasks));
   li.addEventListener("click", function () {
     li.classList.toggle("line-through");
     li.classList.toggle("opacity-50");
