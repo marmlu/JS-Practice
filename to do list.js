@@ -51,6 +51,9 @@ function createTask(taskText) {
     let shouldDelete = confirm("Delete this task?");
 
     if (shouldDelete) {
+      let index = tasks.indexOf(taskText);
+      tasks.splice(index, 1);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
       li.remove();
       console.log("Task Deleted");
     }
