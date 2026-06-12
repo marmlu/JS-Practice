@@ -7,8 +7,13 @@ function addTask() {
   if (taskInput.value.trim() === "") {
     return;
   }
-  tasks.push(taskText);
-  createTask(taskText);
+  const taskObject = {
+    text: taskText,
+    completed: false,
+  };
+  tasks.push(taskObject);
+
+  createTask(taskObject);
   localStorage.setItem("tasks", JSON.stringify(tasks));
   taskInput.value = "";
   console.log("Added:", taskText);
@@ -23,6 +28,7 @@ function loadTask() {
     createTask(task);
   });
 }
+
 button.addEventListener("click", addTask);
 taskInput.addEventListener("keydown", function (event) {
   let key = event.key;
@@ -30,14 +36,18 @@ taskInput.addEventListener("keydown", function (event) {
     addTask();
   }
 });
-function createTask(taskText) {
+
+function createTask(taskObject) {
   let li = document.createElement("li");
 
   li.className =
     "flex justify-between items-center bg-gray-500 text-white p-5 rounded-xl shadow-md hover:bg-gray-400 transition duration-300 cursor-pointer";
 
-  li.textContent = taskText;
-
+  li.textContent = taskObject.text;
+  if (taskObject.completed) {
+    li.classList.add("line-through");
+    li.classList.add("opacity-50");
+  }
   let delBtn = document.createElement("button");
 
   delBtn.textContent = "❌";
@@ -51,7 +61,7 @@ function createTask(taskText) {
     let shouldDelete = confirm("Delete this task?");
 
     if (shouldDelete) {
-      let index = tasks.indexOf(taskText);
+      let index = tasks.indexOf(taskObject);
       tasks.splice(index, 1);
       localStorage.setItem("tasks", JSON.stringify(tasks));
       li.remove();
@@ -62,12 +72,13 @@ function createTask(taskText) {
   li.appendChild(delBtn);
 
   taskList.appendChild(li);
-
   li.addEventListener("click", function () {
+    taskObject.completed = !taskObject.completed;
+
     li.classList.toggle("line-through");
     li.classList.toggle("opacity-50");
 
-    console.log("Task completed");
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   });
 }
 loadTask();
