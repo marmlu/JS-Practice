@@ -1,7 +1,9 @@
+let counter = 0;
 const tasks = [];
 const taskInput = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
+const taskCounter = documenet.getElementById("taskCounter");
 function addTask() {
   let taskText = taskInput.value.toUpperCase();
   if (taskInput.value.trim() === "") {
@@ -24,8 +26,8 @@ function loadTask() {
     return;
   }
   savedTasks.forEach(function (task) {
-    tasks.push(task);
-    createTask(task);
+    tasks.push(taskObject);
+    createTask(taskObject);
   });
 }
 
@@ -39,7 +41,8 @@ taskInput.addEventListener("keydown", function (event) {
 
 function createTask(taskObject) {
   let li = document.createElement("li");
-
+  counter = tasks.length - 1;
+  taskCounter.textContent = "Total task:" + counter;
   li.className =
     "flex justify-between items-center bg-gray-500 text-white p-5 rounded-xl shadow-md hover:bg-gray-400 transition duration-300 cursor-pointer";
 
