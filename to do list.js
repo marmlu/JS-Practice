@@ -1,9 +1,16 @@
-let counter = 0;
 const tasks = [];
 const taskInput = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
-const taskCounter = documenet.getElementById("taskCounter");
+const taskCounter = document.getElementById("taskCounter");
+function updateCounter() {
+  const remaining = tasks.filter(function (task) {
+    return !task.completed;
+  });
+
+  taskCounter.textContent = `Tasks Remaining: ${remaining.length}`;
+}
+
 function addTask() {
   let taskText = taskInput.value.toUpperCase();
   if (taskInput.value.trim() === "") {
@@ -14,7 +21,7 @@ function addTask() {
     completed: false,
   };
   tasks.push(taskObject);
-
+  updateCounter();
   createTask(taskObject);
   localStorage.setItem("tasks", JSON.stringify(tasks));
   taskInput.value = "";
@@ -26,8 +33,8 @@ function loadTask() {
     return;
   }
   savedTasks.forEach(function (task) {
-    tasks.push(taskObject);
-    createTask(taskObject);
+    tasks.push(task);
+    createTask(task);
   });
 }
 
@@ -37,15 +44,13 @@ taskInput.addEventListener("keydown", function (event) {
   if (key === "Enter") {
     addTask();
   }
+  updateCounter();
 });
 
 function createTask(taskObject) {
   let li = document.createElement("li");
-  counter = tasks.length - 1;
-  taskCounter.textContent = "Total task:" + counter;
   li.className =
     "flex justify-between items-center bg-gray-500 text-white p-5 rounded-xl shadow-md hover:bg-gray-400 transition duration-300 cursor-pointer";
-
   li.textContent = taskObject.text;
   if (taskObject.completed) {
     li.classList.add("line-through");
@@ -66,6 +71,7 @@ function createTask(taskObject) {
     if (shouldDelete) {
       let index = tasks.indexOf(taskObject);
       tasks.splice(index, 1);
+      updateCounter();
       localStorage.setItem("tasks", JSON.stringify(tasks));
       li.remove();
       console.log("Task Deleted");
@@ -77,11 +83,11 @@ function createTask(taskObject) {
   taskList.appendChild(li);
   li.addEventListener("click", function () {
     taskObject.completed = !taskObject.completed;
-
+    updateCounter();
     li.classList.toggle("line-through");
     li.classList.toggle("opacity-50");
-
     localStorage.setItem("tasks", JSON.stringify(tasks));
   });
 }
 loadTask();
+updateCounter();
