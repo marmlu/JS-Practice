@@ -7,7 +7,6 @@ function updateCounter() {
   const remaining = tasks.filter(function (task) {
     return !task.completed;
   });
-
   taskCounter.textContent = `Tasks Remaining: ${remaining.length}`;
 }
 
