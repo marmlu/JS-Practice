@@ -109,8 +109,8 @@ activeBtn.addEventListener("click", function () {
   renderTask(activeTasks);
 });
 completedBtn.addEventListener("click", function () {
-  const completed = tasks.filter(function (task) {
+  const completedTasks = tasks.filter(function (task) {
     return task.completed;
   });
-  renderTask(completed);
+  renderTask(completedTasks);
 });
