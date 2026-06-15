@@ -6,6 +6,7 @@ const taskCounter = document.getElementById("taskCounter");
 const allBtn = document.getElementById("allBtn");
 const activeBtn = document.getElementById("activeBtn");
 const completedBtn = document.getElementById("completedBtn");
+const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 function updateCounter() {
   const remaining = tasks.filter(function (task) {
     return !task.completed;
@@ -113,4 +114,21 @@ completedBtn.addEventListener("click", function () {
     return task.completed;
   });
   renderTask(completedTasks);
+});
+clearCompletedBtn.addEventListener("click", function () {
+  const activeTasks = tasks.filter(function (task) {
+    return !task.completed;
+  });
+
+  tasks.length = 0;
+
+  activeTasks.forEach(function (task) {
+    tasks.push(task);
+  });
+
+  renderTasks(tasks);
+
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+
+  updateCounter();
 });
