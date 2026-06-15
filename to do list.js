@@ -3,6 +3,9 @@ const taskInput = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 const taskCounter = document.getElementById("taskCounter");
+const allBtn = document.getElementById("allBtn");
+const activeBtn = document.getElementById("activeBtn");
+const completedBtn = document.getElementById("completedBtn");
 function updateCounter() {
   const remaining = tasks.filter(function (task) {
     return !task.completed;
@@ -90,3 +93,24 @@ function createTask(taskObject) {
 }
 loadTask();
 updateCounter();
+function renderTask(taskArray) {
+  taskList.innerHTML = "";
+  taskArray.forEach(function (task) {
+    createTask(task);
+  });
+}
+allBtn.addEventListener("click", function () {
+  renderTask(tasks);
+});
+activeBtn.addEventListener("click", function () {
+  const activeTasks = tasks.filter(function (task) {
+    return !task.completed;
+  });
+  renderTask(activeTasks);
+});
+completedBtn.addEventListener("click", function () {
+  const completed = tasks.filter(function (task) {
+    return task.completed;
+  });
+  renderTask(completed);
+});
