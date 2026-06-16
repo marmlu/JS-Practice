@@ -7,6 +7,28 @@ const allBtn = document.getElementById("allBtn");
 const activeBtn = document.getElementById("activeBtn");
 const completedBtn = document.getElementById("completedBtn");
 const clearCompletedBtn = document.getElementById("clearCompletedBtn");
+const totalTasks = document.getElementById("totalTasks");
+const completedTasks = document.getElementById("completedTasks");
+const progressText = document.getElementById("progressText");
+function progressTextInPercent() {
+  const completed = tasks.filter(function (task) {
+    return task.completed;
+  });
+  if (tasks.length > 0) {
+    let progress = 0;
+    progress = Math.round((completed.length / tasks.length) * 100);
+    progressText.textContent = `Progress: ${progress}%`;
+  }
+}
+function totalTasksCounter() {
+  totalTasks.textContent = `Total Tasks: ${tasks.length}`;
+}
+function completedTasksCounter() {
+  const completed = tasks.filter(function (task) {
+    return task.completed;
+  });
+  completedTasks.textContent = `Tasks completed: ${completed.length}`;
+}
 function updateCounter() {
   const remaining = tasks.filter(function (task) {
     return !task.completed;
@@ -25,6 +47,8 @@ function addTask() {
   };
   tasks.push(taskObject);
   updateCounter();
+  totalTasksCounter();
+  progressTextInPercent();
   createTask(taskObject);
   localStorage.setItem("tasks", JSON.stringify(tasks));
   taskInput.value = "";
@@ -48,6 +72,8 @@ taskInput.addEventListener("keydown", function (event) {
     addTask();
   }
   updateCounter();
+  totalTasksCounter();
+  progressTextInPercent();
 });
 
 function createTask(taskObject) {
@@ -75,6 +101,8 @@ function createTask(taskObject) {
       let index = tasks.indexOf(taskObject);
       tasks.splice(index, 1);
       updateCounter();
+      totalTasksCounter();
+      progressTextInPercent();
       localStorage.setItem("tasks", JSON.stringify(tasks));
       li.remove();
       console.log("Task Deleted");
@@ -86,21 +114,15 @@ function createTask(taskObject) {
     "bg-blue-500 hover:bg-blue-400 text-white font-semibold px-4 py-2 rounded-xl transition duration-300";
   editBtn.addEventListener("click", function (event) {
     event.stopPropagation();
-
     let newText = prompt("Edit task:", taskObject.text);
-
     if (newText === null) {
       return;
     }
-
     if (newText.trim() === "") {
       return;
     }
-
     taskObject.text = newText.toUpperCase();
-
     renderTask(tasks);
-
     localStorage.setItem("tasks", JSON.stringify(tasks));
   });
   li.appendChild(editBtn);
@@ -110,6 +132,9 @@ function createTask(taskObject) {
   li.addEventListener("click", function () {
     taskObject.completed = !taskObject.completed;
     updateCounter();
+    completedTasksCounter();
+    totalTasksCounter();
+    progressTextInPercent();
     li.classList.toggle("line-through");
     li.classList.toggle("opacity-50");
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -117,6 +142,9 @@ function createTask(taskObject) {
 }
 loadTask();
 updateCounter();
+completedTasksCounter();
+totalTasksCounter();
+progressTextInPercent();
 function renderTask(taskArray) {
   taskList.innerHTML = "";
   taskArray.forEach(function (task) {
@@ -154,4 +182,5 @@ clearCompletedBtn.addEventListener("click", function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
   updateCounter();
+  progressTextInPercent();
 });
