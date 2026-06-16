@@ -80,7 +80,30 @@ function createTask(taskObject) {
       console.log("Task Deleted");
     }
   });
+  let editBtn = document.createElement("button");
+  editBtn.textContent = "✏️";
+  editBtn.className =
+    "bg-blue-500 hover:bg-blue-400 text-white font-semibold px-4 py-2 rounded-xl transition duration-300";
+  editBtn.addEventListener("click", function (event) {
+    event.stopPropagation();
 
+    let newText = prompt("Edit task:", taskObject.text);
+
+    if (newText === null) {
+      return;
+    }
+
+    if (newText.trim() === "") {
+      return;
+    }
+
+    taskObject.text = newText.toUpperCase();
+
+    renderTask(tasks);
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  });
+  li.appendChild(editBtn);
   li.appendChild(delBtn);
 
   taskList.appendChild(li);
