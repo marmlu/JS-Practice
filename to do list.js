@@ -10,30 +10,21 @@ const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 const totalTasks = document.getElementById("totalTasks");
 const completedTasks = document.getElementById("completedTasks");
 const progressText = document.getElementById("progressText");
-function progressTextInPercent() {
+function updateCounter() {
   const completed = tasks.filter(function (task) {
     return task.completed;
   });
+  const remaining = tasks.filter(function (task) {
+    return !task.completed;
+  });
+  taskCounter.textContent = `Tasks Remaining: ${remaining.length}`;
+  totalTasks.textContent = `Total Tasks: ${tasks.length}`;
+  completedTasks.textContent = `Tasks completed: ${completed.length}`;
   if (tasks.length > 0) {
     let progress = 0;
     progress = Math.round((completed.length / tasks.length) * 100);
     progressText.textContent = `Progress: ${progress}%`;
   }
-}
-function totalTasksCounter() {
-  totalTasks.textContent = `Total Tasks: ${tasks.length}`;
-}
-function completedTasksCounter() {
-  const completed = tasks.filter(function (task) {
-    return task.completed;
-  });
-  completedTasks.textContent = `Tasks completed: ${completed.length}`;
-}
-function updateCounter() {
-  const remaining = tasks.filter(function (task) {
-    return !task.completed;
-  });
-  taskCounter.textContent = `Tasks Remaining: ${remaining.length}`;
 }
 
 function addTask() {
@@ -47,8 +38,7 @@ function addTask() {
   };
   tasks.push(taskObject);
   updateCounter();
-  totalTasksCounter();
-  progressTextInPercent();
+
   createTask(taskObject);
   localStorage.setItem("tasks", JSON.stringify(tasks));
   taskInput.value = "";
@@ -72,8 +62,6 @@ taskInput.addEventListener("keydown", function (event) {
     addTask();
   }
   updateCounter();
-  totalTasksCounter();
-  progressTextInPercent();
 });
 
 function createTask(taskObject) {
@@ -101,8 +89,7 @@ function createTask(taskObject) {
       let index = tasks.indexOf(taskObject);
       tasks.splice(index, 1);
       updateCounter();
-      totalTasksCounter();
-      progressTextInPercent();
+
       localStorage.setItem("tasks", JSON.stringify(tasks));
       li.remove();
       console.log("Task Deleted");
@@ -132,9 +119,7 @@ function createTask(taskObject) {
   li.addEventListener("click", function () {
     taskObject.completed = !taskObject.completed;
     updateCounter();
-    completedTasksCounter();
-    totalTasksCounter();
-    progressTextInPercent();
+
     li.classList.toggle("line-through");
     li.classList.toggle("opacity-50");
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -142,9 +127,7 @@ function createTask(taskObject) {
 }
 loadTask();
 updateCounter();
-completedTasksCounter();
-totalTasksCounter();
-progressTextInPercent();
+
 function renderTask(taskArray) {
   taskList.innerHTML = "";
   taskArray.forEach(function (task) {
@@ -182,5 +165,4 @@ clearCompletedBtn.addEventListener("click", function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
   updateCounter();
-  progressTextInPercent();
 });
