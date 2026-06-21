@@ -11,12 +11,30 @@ const totalTasks = document.getElementById("totalTasks");
 const completedTasks = document.getElementById("completedTasks");
 const progressText = document.getElementById("progressText");
 const searchInput = document.getElementById("searchInput");
+const sortAZBtn = document.getElementById("sortAZBtn");
+const sortZABtn = document.getElementById("sortZABtn");
+sortAZBtn.addEventListener("click", function () {
+  tasks.sort(function (a, b) {
+    return a.text.localeCompare(b.text);
+  });
+  renderTask(tasks);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+});
+
 searchInput.addEventListener("input", function () {
   let searchText = searchInput.value.toUpperCase();
   const filteredTasks = tasks.filter(function (task) {
     return task.text.includes(searchText);
   });
   renderTask(filteredTasks);
+});
+sortZABtn.addEventListener("click", function () {
+  tasks.sort(function (a, b) {
+    return b.text.localeCompare(a.text);
+  });
+
+  renderTask(tasks);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 });
 function updateCounter() {
   const completed = tasks.filter(function (task) {
