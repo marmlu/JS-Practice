@@ -10,6 +10,14 @@ const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 const totalTasks = document.getElementById("totalTasks");
 const completedTasks = document.getElementById("completedTasks");
 const progressText = document.getElementById("progressText");
+const searchInput = document.getElementById("searchInput");
+searchInput.addEventListener("input", function () {
+  let searchText = searchInput.value.toUpperCase();
+  const filteredTasks = tasks.filter(function (task) {
+    return task.text.includes(searchText);
+  });
+  renderTask(filteredTasks);
+});
 function updateCounter() {
   const completed = tasks.filter(function (task) {
     return task.completed;
