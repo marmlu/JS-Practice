@@ -13,6 +13,7 @@ const progressText = document.getElementById("progressText");
 const searchInput = document.getElementById("searchInput");
 const sortAZBtn = document.getElementById("sortAZBtn");
 const sortZABtn = document.getElementById("sortZABtn");
+const dateInput = document.getElementById("dateInput");
 sortAZBtn.addEventListener("click", function () {
   tasks.sort(function (a, b) {
     return a.text.localeCompare(b.text);
@@ -61,6 +62,7 @@ function addTask() {
   const taskObject = {
     text: taskText,
     completed: false,
+    dueDate: dateInput.value,
   };
   tasks.push(taskObject);
   updateCounter();
@@ -93,8 +95,8 @@ taskInput.addEventListener("keydown", function (event) {
 function createTask(taskObject) {
   let li = document.createElement("li");
   li.className =
-    "flex justify-between items-center bg-gray-500 text-white p-5 rounded-xl shadow-md hover:bg-gray-400 transition duration-300 cursor-pointer";
-  li.textContent = taskObject.text;
+    "flex justify-between items-center bg-slate-800 text-white p-5 rounded-2xl shadow-lg hover:scale-105 transition duration-300 cursor-pointer";
+  li.textContent = `${taskObject.text} (${taskObject.dueDate});`;
   if (taskObject.completed) {
     li.classList.add("line-through");
     li.classList.add("opacity-50");
@@ -104,8 +106,7 @@ function createTask(taskObject) {
   delBtn.textContent = "❌";
 
   delBtn.className =
-    "bg-red-500 hover:bg-red-400 text-white font-semibold px-4 py-2 rounded-xl transition duration-300";
-
+    "bg-red-600 hover:bg-red-500 text-white font-semibold px-3 py-2 rounded-xl transition duration-300 shadow-md";
   delBtn.addEventListener("click", function (event) {
     event.stopPropagation();
 
@@ -124,7 +125,7 @@ function createTask(taskObject) {
   let editBtn = document.createElement("button");
   editBtn.textContent = "✏️";
   editBtn.className =
-    "bg-blue-500 hover:bg-blue-400 text-white font-semibold px-4 py-2 rounded-xl transition duration-300";
+    "bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3 py-2 rounded-xl transition duration-300 shadow-md";
   editBtn.addEventListener("click", function (event) {
     event.stopPropagation();
     let newText = prompt("Edit task:", taskObject.text);
