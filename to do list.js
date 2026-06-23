@@ -47,11 +47,13 @@ function updateCounter() {
   taskCounter.textContent = `Tasks Remaining: ${remaining.length}`;
   totalTasks.textContent = `Total Tasks: ${tasks.length}`;
   completedTasks.textContent = `Tasks completed: ${completed.length}`;
+  let progress = 0;
+
   if (tasks.length > 0) {
-    let progress = 0;
     progress = Math.round((completed.length / tasks.length) * 100);
-    progressText.textContent = `Progress: ${progress}%`;
   }
+
+  progressText.textContent = `Progress: ${progress}%`;
 }
 
 function addTask() {
@@ -96,6 +98,14 @@ function createTask(taskObject) {
   let li = document.createElement("li");
   li.className =
     "flex justify-between items-center bg-slate-800 text-white p-5 rounded-2xl shadow-lg hover:scale-105 transition duration-300 cursor-pointer";
+
+  const today = new Date();
+  const dueDate = new Date(taskObject.dueDate);
+
+  if (taskObject.dueDate && today > dueDate && !taskObject.completed) {
+    li.classList.add("border-4", "border-red-500");
+  }
+
   li.textContent = `${taskObject.text} (${taskObject.dueDate});`;
   if (taskObject.completed) {
     li.classList.add("line-through");
@@ -105,8 +115,6 @@ function createTask(taskObject) {
 
   delBtn.textContent = "❌";
 
-  delBtn.className =
-    "bg-red-600 hover:bg-red-500 text-white font-semibold px-3 py-2 rounded-xl transition duration-300 shadow-md";
   delBtn.addEventListener("click", function (event) {
     event.stopPropagation();
 
@@ -124,8 +132,6 @@ function createTask(taskObject) {
   });
   let editBtn = document.createElement("button");
   editBtn.textContent = "✏️";
-  editBtn.className =
-    "bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3 py-2 rounded-xl transition duration-300 shadow-md";
   editBtn.addEventListener("click", function (event) {
     event.stopPropagation();
     let newText = prompt("Edit task:", taskObject.text);
@@ -187,7 +193,7 @@ clearCompletedBtn.addEventListener("click", function () {
     tasks.push(task);
   });
 
-  renderTasks(tasks);
+  renderTask(tasks);
 
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
