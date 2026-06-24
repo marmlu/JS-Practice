@@ -1,3 +1,4 @@
+const priorityInput = document.getElementById("priorityInput");
 const tasks = [];
 const taskInput = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
@@ -65,6 +66,7 @@ function addTask() {
     text: taskText,
     completed: false,
     dueDate: dateInput.value,
+    priority: priorityInput.value,
   };
   tasks.push(taskObject);
   updateCounter();
@@ -98,7 +100,17 @@ function createTask(taskObject) {
   let li = document.createElement("li");
   li.className =
     "flex justify-between items-center bg-slate-800 text-white p-5 rounded-2xl shadow-lg hover:scale-105 transition duration-300 cursor-pointer";
+  if (taskObject.priority === "HIGH") {
+    li.classList.add("border-l-8", "border-red-500");
+  }
 
+  if (taskObject.priority === "MEDIUM") {
+    li.classList.add("border-l-8", "border-yellow-500");
+  }
+
+  if (taskObject.priority === "LOW") {
+    li.classList.add("border-l-8", "border-green-500");
+  }
   const today = new Date();
   const dueDate = new Date(taskObject.dueDate);
 
@@ -106,7 +118,7 @@ function createTask(taskObject) {
     li.classList.add("border-4", "border-red-500");
   }
 
-  li.textContent = `${taskObject.text} (${taskObject.dueDate});`;
+  li.textContent = `${taskObject.text} (${taskObject.dueDate}) [${taskObject.priority}];`;
   if (taskObject.completed) {
     li.classList.add("line-through");
     li.classList.add("opacity-50");
