@@ -1,3 +1,6 @@
+const highActiveBtn = document.getElementById("highActiveBtn");
+const mediumActiveBtn = document.getElementById("mediumActiveBtn");
+const lowActiveBtn = document.getElementById("lowActiveBtn");
 const highBtn = document.getElementById("highBtn");
 const mediumBtn = document.getElementById("mediumBtn");
 const lowBtn = document.getElementById("lowBtn");
@@ -237,4 +240,22 @@ lowBtn.addEventListener("click", function () {
     return task.priority === "LOW";
   });
   renderTask(lowTasks);
+});
+highActiveBtn.addEventListener("click", function () {
+  const highActiveTasks = tasks.filter(function (task) {
+    return task.priority === "HIGH" && !task.completed;
+  });
+  renderTask(highActiveTasks);
+});
+mediumActiveBtn.addEventListener("click", function () {
+  const mediumActiveTasks = tasks.filter(function (task) {
+    return task.priority === "MEDIUM" && !task.completed;
+  });
+  renderTask(mediumActiveTasks);
+});
+lowActiveBtn.addEventListener("click", function () {
+  const lowActiveTasks = tasks.filter(function (task) {
+    return task.priority === "LOW" && !task.completed;
+  });
+  renderTask(lowActiveTasks);
 });
