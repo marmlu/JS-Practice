@@ -1,3 +1,4 @@
+const exportBtn = document.getElementById("exportBtn");
 const highActiveBtn = document.getElementById("highActiveBtn");
 const mediumActiveBtn = document.getElementById("mediumActiveBtn");
 const lowActiveBtn = document.getElementById("lowActiveBtn");
@@ -258,4 +259,12 @@ lowActiveBtn.addEventListener("click", function () {
     return task.priority === "LOW" && !task.completed;
   });
   renderTask(lowActiveTasks);
+});
+exportBtn.addEventListener("click", function () {
+  const blob = new Blob([JSON.stringify(tasks)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "tasks.json";
+  a.click();
 });
