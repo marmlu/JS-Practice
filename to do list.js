@@ -1,3 +1,6 @@
+const highBtn = document.getElementById("highBtn");
+const mediumBtn = document.getElementById("mediumBtn");
+const lowBtn = document.getElementById("lowBtn");
 const priorityInput = document.getElementById("priorityInput");
 const tasks = [];
 const taskInput = document.getElementById("taskInput");
@@ -62,6 +65,10 @@ function addTask() {
   if (taskInput.value.trim() === "") {
     return;
   }
+  if (priorityInput.value === "") {
+    alert("Please select a priority");
+    return;
+  }
   const taskObject = {
     text: taskText,
     completed: false,
@@ -111,6 +118,7 @@ function createTask(taskObject) {
   if (taskObject.priority === "LOW") {
     li.classList.add("border-l-8", "border-green-500");
   }
+
   const today = new Date();
   const dueDate = new Date(taskObject.dueDate);
 
@@ -210,4 +218,23 @@ clearCompletedBtn.addEventListener("click", function () {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 
   updateCounter();
+});
+highBtn.addEventListener("click", function () {
+  const highTasks = tasks.filter(function (task) {
+    return task.priority === "HIGH";
+  });
+
+  renderTask(highTasks);
+});
+mediumBtn.addEventListener("click", function () {
+  const mediumTasks = tasks.filter(function (task) {
+    return task.priority === "MEDIUM";
+  });
+  renderTask(mediumTasks);
+});
+lowBtn.addEventListener("click", function () {
+  const lowTasks = tasks.filter(function (task) {
+    return task.priority === "LOW";
+  });
+  renderTask(lowTasks);
 });
