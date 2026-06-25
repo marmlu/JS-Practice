@@ -1,3 +1,4 @@
+const importInput = document.getElementById("importInput");
 const exportBtn = document.getElementById("exportBtn");
 const highActiveBtn = document.getElementById("highActiveBtn");
 const mediumActiveBtn = document.getElementById("mediumActiveBtn");
@@ -267,4 +268,22 @@ exportBtn.addEventListener("click", function () {
   a.href = url;
   a.download = "tasks.json";
   a.click();
+});
+importInput.addEventListener("change", function () {
+  const file = importInput.files[0];
+  if (!file) {
+    return;
+  }
+  const reader = new FileReader();
+  reader.readAsText(file);
+
+  reader.onload = function () {
+    const importedTasks = JSON.parse(reader.result);
+    importedTasks.forEach(function (task) {
+      tasks.push(task);
+    });
+    renderTask(tasks);
+    updateCounter();
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  };
 });
