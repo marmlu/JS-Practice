@@ -1,51 +1,67 @@
 <!doctype html>
-<html lang="en" class="h-full">
+<html lang="en" class="h-full dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Manager</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
   </head>
 
   <body
     class="bg-gray-100 dark:bg-slate-900 dark:text-white min-h-screen flex justify-center items-center p-6"
   >
     <section
-      class="bg-gray-100 dark:bg-slate-900 dark:text-white w-full max-w-6xl rounded-3xl shadow-2xl p-8 md:p-12"
+      class="bg-white dark:bg-slate-900 dark:text-white w-full max-w-6xl rounded-3xl shadow-2xl p-8 md:p-12"
     >
-      <button
-        id="themeBtn"
-        class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-xl"
-      >
-        🌙 Dark Mode
-      </button>
+      <!-- Theme Button -->
+      <div class="flex justify-end mb-6">
+        <button
+          id="themeBtn"
+          class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-xl transition duration-300"
+        >
+          🌙 Dark Mode
+        </button>
+      </div>
+
+      <!-- Title -->
       <h1
-        class="dark:text-white text-5xl font-extrabold text-center mb-10 text-slate-800 tracking-wide"
+        class="text-5xl font-extrabold text-center mb-10 text-slate-800 dark:text-gray-500 tracking-wide"
       >
         Task Manager
       </h1>
 
+      <!-- Input Area -->
       <div class="flex flex-col md:flex-row gap-4 mb-8">
         <input
           id="taskInput"
           type="text"
           placeholder="Enter a task..."
-          class="flex-1 p-4 rounded-2xl border border-gray-300 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+          class="flex-1 p-4 rounded-2xl border border-gray-300 bg-gray-50 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+
         <input
           id="dateInput"
           type="date"
-          class="p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-green-400"
+          class="p-3 rounded-xl border text-black focus:outline-none focus:ring-2 focus:ring-green-400"
         />
+
         <select
           id="priorityInput"
-          class="p-4 rounded-xl border focus:outline-none focus:ring-2 focus:ring-green-400"
+          class="p-4 rounded-xl border text-black focus:outline-none focus:ring-2 focus:ring-green-400"
         >
           <option value="" disabled selected>Priority</option>
           <option value="LOW">Low</option>
           <option value="MEDIUM">Medium</option>
           <option value="HIGH">High</option>
         </select>
+
         <button
           id="addBtn"
           class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-4 rounded-2xl transition duration-300"
@@ -54,132 +70,148 @@
         </button>
       </div>
 
+      <!-- Statistics -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div class="bg-blue-50 rounded-2xl p-4 text-center">
+        <div class="bg-blue-50 rounded-2xl p-4 text-center dark:bg-blue-300">
           <p class="text-sm text-gray-500">Remaining</p>
           <p id="taskCounter" class="text-2xl font-bold text-blue-600">0</p>
         </div>
 
-        <div class="bg-purple-50 rounded-2xl p-4 text-center">
+        <div
+          class="bg-purple-50 rounded-2xl p-4 text-center dark:bg-purple-300"
+        >
           <p class="text-sm text-gray-500">Total</p>
           <p id="totalTasks" class="text-2xl font-bold text-purple-600">0</p>
         </div>
 
-        <div class="bg-green-50 rounded-2xl p-4 text-center">
+        <div class="bg-green-50 rounded-2xl p-4 text-center dark:bg-green-300">
           <p class="text-sm text-gray-500">Completed</p>
           <p id="completedTasks" class="text-2xl font-bold text-green-600">0</p>
         </div>
 
-        <div class="bg-orange-50 rounded-2xl p-4 text-center">
+        <div
+          class="bg-orange-50 rounded-2xl p-4 text-center dark:bg-orange-300"
+        >
           <p class="text-sm text-gray-500">Progress</p>
           <p id="progressText" class="text-2xl font-bold text-orange-600">0%</p>
         </div>
       </div>
 
+      <!-- Main Controls -->
       <div class="flex flex-wrap gap-3 justify-center mb-8">
         <button
           id="allBtn"
-          class="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-xl"
         >
           All
         </button>
 
         <button
           id="activeBtn"
-          class="bg-red-500 hover:bg-red-400 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-xl"
         >
           Active
         </button>
 
         <button
           id="completedBtn"
-          class="bg-green-500 hover:bg-green-400 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-green-500 hover:bg-green-400 text-white px-4 py-2 rounded-xl"
         >
           Completed
         </button>
 
         <button
           id="sortAZBtn"
-          class="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-xl"
         >
           Sort A-Z
         </button>
 
         <button
           id="sortZABtn"
-          class="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-xl"
         >
           Sort Z-A
         </button>
+
         <button
           id="exportBtn"
-          class="bg-orange-800 hover:bg-orange-700 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-orange-700 hover:bg-orange-600 text-white px-4 py-2 rounded-xl"
         >
           Export Tasks
         </button>
+
         <button
           id="clearCompletedBtn"
-          class="bg-red-600 hover:bg-red-500 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-red-700 hover:bg-red-600 text-white px-4 py-2 rounded-xl"
         >
           Clear Completed
         </button>
+
         <input
           id="searchInput"
           type="text"
           placeholder="Search tasks..."
-          class="px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="px-4 py-2 rounded-xl border border-gray-300 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <div class="flex flex-wrap gap-3 justify-center mb-8">
+
+      <!-- Priority Filters -->
+      <div class="flex flex-wrap gap-3 justify-center mb-6">
         <button
           id="highBtn"
-          class="bg-red-600 hover:bg-red-500 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-xl"
         >
           High
         </button>
 
         <button
           id="mediumBtn"
-          class="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-yellow-500 hover:bg-yellow-400 text-white px-4 py-2 rounded-xl"
         >
           Medium
         </button>
 
         <button
           id="lowBtn"
-          class="bg-green-600 hover:bg-green-500 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-xl"
         >
           Low
         </button>
       </div>
+
+      <!-- Active Priority Filters -->
       <div class="flex flex-wrap gap-3 justify-center mb-8">
         <button
           id="highActiveBtn"
-          class="bg-red-600 hover:bg-red-500 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-xl"
         >
           High Active Tasks
         </button>
 
         <button
           id="mediumActiveBtn"
-          class="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-yellow-500 hover:bg-yellow-400 text-white px-4 py-2 rounded-xl"
         >
           Medium Active Tasks
         </button>
 
         <button
           id="lowActiveBtn"
-          class="bg-green-600 hover:bg-green-500 text-white font-semibold px-4 py-2 rounded-xl transition duration-300"
+          class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-xl"
         >
           Low Active Tasks
         </button>
+
         <input
           type="file"
           id="importInput"
           accept=".json"
-          class="text-sm text-slate-600 bg-slate-50 border border-slate-300 rounded-2xl cursor-pointer shadow-sm file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-0 file:bg-blue-600 file:text-white file:font-semibold file:cursor-pointer file:hover:bg-blue-500 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+          class="text-sm text-slate-600 bg-slate-50 border border-slate-300 rounded-2xl cursor-pointer shadow-sm file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-0 file:bg-blue-600 file:text-white file:font-semibold file:hover:bg-blue-500 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
+
+      <!-- Task List -->
       <ul
         id="taskList"
         class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"

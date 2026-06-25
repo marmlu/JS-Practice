@@ -1,3 +1,4 @@
+// DOM Elements
 const themeBtn = document.getElementById("themeBtn");
 const importInput = document.getElementById("importInput");
 const exportBtn = document.getElementById("exportBtn");
@@ -24,48 +25,8 @@ const searchInput = document.getElementById("searchInput");
 const sortAZBtn = document.getElementById("sortAZBtn");
 const sortZABtn = document.getElementById("sortZABtn");
 const dateInput = document.getElementById("dateInput");
-sortAZBtn.addEventListener("click", function () {
-  tasks.sort(function (a, b) {
-    return a.text.localeCompare(b.text);
-  });
-  renderTask(tasks);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-});
 
-searchInput.addEventListener("input", function () {
-  let searchText = searchInput.value.toUpperCase();
-  const filteredTasks = tasks.filter(function (task) {
-    return task.text.includes(searchText);
-  });
-  renderTask(filteredTasks);
-});
-sortZABtn.addEventListener("click", function () {
-  tasks.sort(function (a, b) {
-    return b.text.localeCompare(a.text);
-  });
-
-  renderTask(tasks);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-});
-function updateCounter() {
-  const completed = tasks.filter(function (task) {
-    return task.completed;
-  });
-  const remaining = tasks.filter(function (task) {
-    return !task.completed;
-  });
-  taskCounter.textContent = `Tasks Remaining: ${remaining.length}`;
-  totalTasks.textContent = `Total Tasks: ${tasks.length}`;
-  completedTasks.textContent = `Tasks completed: ${completed.length}`;
-  let progress = 0;
-
-  if (tasks.length > 0) {
-    progress = Math.round((completed.length / tasks.length) * 100);
-  }
-
-  progressText.textContent = `Progress: ${progress}%`;
-}
-
+// Functions
 function addTask() {
   let taskText = taskInput.value.toUpperCase();
   if (taskInput.value.trim() === "") {
@@ -83,37 +44,13 @@ function addTask() {
   };
   tasks.push(taskObject);
   updateCounter();
-
   createTask(taskObject);
   localStorage.setItem("tasks", JSON.stringify(tasks));
   taskInput.value = "";
+  dateInput.value = "";
+  priorityInput.value = "";
   console.log("Added:", taskText);
 }
-function loadTask() {
-  let savedTasks = JSON.parse(localStorage.getItem("tasks"));
-  if (!savedTasks) {
-    return;
-  }
-  savedTasks.forEach(function (task) {
-    tasks.push(task);
-    createTask(task);
-  });
-  if (localStorage.getItem("theme") === "dark") {
-    document.documentElement.classList.add("dark");
-    themeBtn.innerHTML = "☀️ Light Mode";
-  } else {
-    themeBtn.innerHTML = "🌙 Dark Mode";
-  }
-}
-
-button.addEventListener("click", addTask);
-taskInput.addEventListener("keydown", function (event) {
-  let key = event.key;
-  if (key === "Enter") {
-    addTask();
-  }
-  updateCounter();
-});
 
 function createTask(taskObject) {
   let li = document.createElement("li");
@@ -156,7 +93,6 @@ function createTask(taskObject) {
       let index = tasks.indexOf(taskObject);
       tasks.splice(index, 1);
       updateCounter();
-
       localStorage.setItem("tasks", JSON.stringify(tasks));
       li.remove();
       console.log("Task Deleted");
@@ -179,17 +115,51 @@ function createTask(taskObject) {
   });
   li.appendChild(editBtn);
   li.appendChild(delBtn);
-
   taskList.appendChild(li);
+
   li.addEventListener("click", function () {
     taskObject.completed = !taskObject.completed;
     updateCounter();
-
     li.classList.toggle("line-through");
     li.classList.toggle("opacity-50");
     localStorage.setItem("tasks", JSON.stringify(tasks));
   });
 }
+
+function loadTask() {
+  let savedTasks = JSON.parse(localStorage.getItem("tasks"));
+  if (!savedTasks) {
+    return;
+  }
+  savedTasks.forEach(function (task) {
+    tasks.push(task);
+    createTask(task);
+  });
+  if (localStorage.getItem("theme") === "dark") {
+    document.documentElement.classList.add("dark");
+    themeBtn.innerHTML = "☀️ Light Mode";
+  } else {
+    themeBtn.innerHTML = "🌙 Dark Mode";
+  }
+}
+function updateCounter() {
+  const completed = tasks.filter(function (task) {
+    return task.completed;
+  });
+  const remaining = tasks.filter(function (task) {
+    return !task.completed;
+  });
+  taskCounter.textContent = `Tasks Remaining: ${remaining.length}`;
+  totalTasks.textContent = `Total Tasks: ${tasks.length}`;
+  completedTasks.textContent = `Tasks completed: ${completed.length}`;
+  let progress = 0;
+
+  if (tasks.length > 0) {
+    progress = Math.round((completed.length / tasks.length) * 100);
+  }
+  progressText.textContent = `Progress: ${progress}%`;
+}
+
 loadTask();
 updateCounter();
 
@@ -199,6 +169,16 @@ function renderTask(taskArray) {
     createTask(task);
   });
 }
+
+// Event Listeners
+button.addEventListener("click", addTask);
+taskInput.addEventListener("keydown", function (event) {
+  let key = event.key;
+  if (key === "Enter") {
+    addTask();
+  }
+});
+
 allBtn.addEventListener("click", function () {
   renderTask(tasks);
 });
@@ -213,6 +193,37 @@ completedBtn.addEventListener("click", function () {
     return task.completed;
   });
   renderTask(completedTasks);
+});
+sortAZBtn.addEventListener("click", function () {
+  tasks.sort(function (a, b) {
+    return a.text.localeCompare(b.text);
+  });
+  renderTask(tasks);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+});
+
+searchInput.addEventListener("input", function () {
+  let searchText = searchInput.value.toUpperCase();
+  const filteredTasks = tasks.filter(function (task) {
+    return task.text.includes(searchText);
+  });
+  renderTask(filteredTasks);
+});
+sortZABtn.addEventListener("click", function () {
+  tasks.sort(function (a, b) {
+    return b.text.localeCompare(a.text);
+  });
+
+  renderTask(tasks);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+});
+exportBtn.addEventListener("click", function () {
+  const blob = new Blob([JSON.stringify(tasks)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "tasks.json";
+  a.click();
 });
 clearCompletedBtn.addEventListener("click", function () {
   const activeTasks = tasks.filter(function (task) {
@@ -268,14 +279,6 @@ lowActiveBtn.addEventListener("click", function () {
   });
   renderTask(lowActiveTasks);
 });
-exportBtn.addEventListener("click", function () {
-  const blob = new Blob([JSON.stringify(tasks)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "tasks.json";
-  a.click();
-});
 importInput.addEventListener("change", function () {
   const file = importInput.files[0];
   if (!file) {
@@ -285,7 +288,13 @@ importInput.addEventListener("change", function () {
   reader.readAsText(file);
 
   reader.onload = function () {
-    const importedTasks = JSON.parse(reader.result);
+    let importedTasks;
+    try {
+      importedTasks = JSON.parse(reader.result);
+    } catch {
+      alert("Invalid JSON file");
+      return;
+    }
     importedTasks.forEach(function (task) {
       tasks.push(task);
     });
