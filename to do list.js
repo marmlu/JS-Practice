@@ -1,3 +1,4 @@
+const themeBtn = document.getElementById("themeBtn");
 const importInput = document.getElementById("importInput");
 const exportBtn = document.getElementById("exportBtn");
 const highActiveBtn = document.getElementById("highActiveBtn");
@@ -97,6 +98,12 @@ function loadTask() {
     tasks.push(task);
     createTask(task);
   });
+  if (localStorage.getItem("theme") === "dark") {
+    document.documentElement.classList.add("dark");
+    themeBtn.innerHTML = "☀️ Light Mode";
+  } else {
+    themeBtn.innerHTML = "🌙 Dark Mode";
+  }
 }
 
 button.addEventListener("click", addTask);
@@ -286,4 +293,15 @@ importInput.addEventListener("change", function () {
     updateCounter();
     localStorage.setItem("tasks", JSON.stringify(tasks));
   };
+});
+themeBtn.addEventListener("click", function () {
+  document.documentElement.classList.toggle("dark");
+
+  if (document.documentElement.classList.contains("dark")) {
+    themeBtn.innerHTML = "☀️ Light Mode";
+    localStorage.setItem("theme", "dark");
+  } else {
+    themeBtn.innerHTML = "🌙 Dark Mode";
+    localStorage.setItem("theme", "light");
+  }
 });
