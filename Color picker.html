@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Picker App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen flex justify-center p-8 bg-gray-800">
+    <section class="w-full max-w-3xl bg-white rounded-3xl shadow-2xl">
+      <h1 class="font-extrabold text-5xl text-center m-4">🎨Color Picker</h1>
+      <div class="flex flex-col justify-center items-center">
+        <div
+          id="colorPreview"
+          class="w-full h-56 rounded-2xl border-4 border-gray-300 shadow-lg transition duration-300"
+        ></div>
+        <input
+          id="colorInput"
+          type="color"
+          value="#ffffff"
+          class="w-24 h-14 cursor-pointer border mt-5 focus:outline-none focus:ring-2 focus:ring-green-500 rounded-2xl m-4 p-2"
+        />
+        <div class="text-center space-y-2 mt-4">
+          <p id="hexValue" class="font-semibold">HEX: #FFFFFF</p>
+          <p id="rgbValue" class="font-semibold">RGB: rgb(255,255,255)</p>
+          <p id="hslValue" class="font-semibold">HSL: hsl(0,0%,100%)</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3 mt-4">
+          <button
+            class="rounded-xl px-6 py-3 font-semibold transition duration-300 bg-blue-600 text-white m-2"
+            id="copyBtn"
+          >
+            Copy
+          </button>
+
+          <button
+            class="rounded-xl px-6 py-3 font-semibold transition duration-300 bg-purple-600 text-white m-2"
+            id="randomBtn"
+          >
+            Random
+          </button>
+
+          <button
+            class="rounded-xl px-6 py-3 font-semibold transition duration-300 bg-green-600 text-white m-2"
+            id="saveBtn"
+          >
+            Save
+          </button>
+
+          <button
+            class="rounded-xl px-6 py-3 font-semibold transition duration-300 bg-gray-600 text-white m-2"
+            id="themeBtn"
+          >
+            Dark Mode
+          </button>
+        </div>
+        <h2 class="text-2xl font-bold mt-8 mb-4">Favorite Colors</h2>
+
+        <div
+          id="favorites"
+          class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full"
+        ></div>
+      </div>
+    </section>
+    <script src="Color Picker.js"></script>
+  </body>
+</html>
