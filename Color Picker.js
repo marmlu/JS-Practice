@@ -76,4 +76,18 @@ copyBtn.addEventListener("click", function () {
   navigator.clipboard.writeText(colorInput.value);
   alert("successfuly copied");
 });
+randomBtn.addEventListener("click", function () {
+  let randomValue = "#";
+  for (let i = 0; i < 6; i++) {
+    let random = Math.floor(Math.random() * 16);
+    if (random < 10) {
+      randomValue += random;
+    } else {
+      randomValue += String.fromCharCode(55 + random);
+    }
+  }
+  console.log(randomValue);
+  colorInput.value = randomValue;
+  updateColor();
+});
 updateColor();
