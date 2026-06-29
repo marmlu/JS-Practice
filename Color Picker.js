@@ -72,4 +72,8 @@ function hexToHSL(hex) {
 }
 
 colorInput.addEventListener("change", updateColor);
+copyBtn.addEventListener("click", function () {
+  navigator.clipboard.writeText(colorInput.value);
+  alert("successfuly copied");
+});
 updateColor();
