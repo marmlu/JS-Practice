@@ -11,6 +11,7 @@ const saveBtn = document.getElementById("saveBtn");
 const themeBtn = document.getElementById("themeBtn");
 
 const favorites = document.getElementById("favorites");
+const favoriteColors = [];
 
 function updateColor() {
   let color = colorInput.value;
@@ -20,16 +21,14 @@ function updateColor() {
   hslValue.textContent = `HSL: ${hexToHSL(color)}`;
 }
 function hexToRGB(hex) {
-  let color = colorInput.value;
-  color = color.replace("#", "");
+  hex = hex.replace("#", "");
   let r = parseInt(color.substring(0, 2), 16);
   let g = parseInt(color.substring(2, 4), 16);
   let b = parseInt(color.substring(4, 6), 16);
   return `(${r}, ${g}, ${b})`;
 }
 function hexToHSL(hex) {
-  let color = colorInput.value;
-  color = color.replace("#", "");
+  hex = hex.replace("#", "");
   let r = parseInt(color.substring(0, 2), 16);
   let g = parseInt(color.substring(2, 4), 16);
   let b = parseInt(color.substring(4, 6), 16);
@@ -71,7 +70,7 @@ function hexToHSL(hex) {
   return `(${h}, ${s}%, ${l}%)`;
 }
 
-colorInput.addEventListener("change", updateColor);
+colorInput.addEventListener("input", updateColor);
 copyBtn.addEventListener("click", function () {
   navigator.clipboard.writeText(colorInput.value);
   alert("successfuly copied");
@@ -83,11 +82,50 @@ randomBtn.addEventListener("click", function () {
     if (random < 10) {
       randomValue += random;
     } else {
-      randomValue += String.fromCharCode(55 + random);
+      randomValue += String.fromCharCode(87 + random);
     }
   }
   console.log(randomValue);
   colorInput.value = randomValue;
   updateColor();
 });
+function createFavoriteColor(color) {
+  let li = document.createElement("li");
+  li.className =
+    "flex justify-end items-center w-32 h-16 border border-gray-400 rounded-xl m-4";
+  li.style.backgroundColor = color;
+  let delBtn = document.createElement("button");
+  delBtn.textContent = "❌";
+  delBtn.classList = "m-2";
+  delBtn.addEventListener("click", function (event) {
+    event.stopPropagation();
+    let shouldDel = confirm("Delete this color?");
+    if (shouldDel) {
+      li.remove();
+    }
+  });
+  li.appendChild(delBtn);
+  li.addEventListener("click", function () {
+    colorInput.value = color;
+    updateColor();
+  });
+  favorites.appendChild(li);
+}
+saveBtn.addEventListener("click", function () {
+  let color = colorInput.value;
+  favoriteColors.push(color);
+  createFavoriteColor(color);
+  localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
+});
+function loadFavorites() {
+  let savedColors = JSON.parse(localStorage.getItem("favoriteColors"));
+  if (!savedColors) {
+    return;
+  }
+  savedColors.forEach(function (color) {
+    favoriteColors.push(color);
+    createFavoriteColor(color);
+  });
+}
+loadFavorites();
 updateColor();
