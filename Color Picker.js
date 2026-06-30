@@ -12,6 +12,7 @@ const themeBtn = document.getElementById("themeBtn");
 
 const favorites = document.getElementById("favorites");
 const favoriteColors = [];
+const clearColors = document.getElementById("clearColors");
 
 function updateColor() {
   let color = colorInput.value;
@@ -101,6 +102,9 @@ function createFavoriteColor(color) {
     event.stopPropagation();
     let shouldDel = confirm("Delete this color?");
     if (shouldDel) {
+      let index = favoriteColors.indexOf(favoriteColors);
+      favoriteColors.splice(index, 1);
+      localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
       li.remove();
     }
   });
@@ -127,5 +131,10 @@ function loadFavorites() {
     createFavoriteColor(color);
   });
 }
+clearColors.addEventListener("click", function () {
+  favoriteColors.length = 0;
+  localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
+  favorites.innerHTML = "";
+});
 loadFavorites();
 updateColor();
