@@ -55,12 +55,20 @@
           </button>
         </div>
         <h2 class="text-2xl font-bold mt-8 mb-4">Favorite Colors</h2>
-        <button
-          class="rounded-xl px-6 py-3 font-semibold transition duration-300 bg-red-600 text-white m-2"
-          id="clearColors"
-        >
-          Clear Favorite Colors
-        </button>
+        <div class="flex justify-items-center">
+          <button
+            class="rounded-xl px-4 py-3 font-semibold transition duration-300 bg-red-600 text-white mx-4"
+            id="clearColors"
+          >
+            Clear Favorite Colors
+          </button>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search Colors..."
+            class="px-4 py-2 rounded-xl border border-gray-300 text-black focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
         <ul
           id="favorites"
           class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full justify-items-center"
