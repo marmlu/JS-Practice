@@ -15,6 +15,7 @@ const favoriteColors = [];
 const clearFavoriteColors = document.getElementById("clearColors");
 const searchInput = document.getElementById("searchInput");
 const exportBtn = document.getElementById("exportFile");
+const importFile = document.getElementById("importFile");
 
 function updateColor() {
   let color = colorInput.value;
@@ -163,6 +164,29 @@ exportBtn.addEventListener("click", function () {
   a.href = url;
   a.download = "favoriteColors.JSON";
   a.click();
+  URL.revokeObjectURL(url);
+});
+importFile.addEventListener("input", function () {
+  const file = importFile.files[0];
+  if (!file) {
+    return;
+  }
+  const reader = new FileReader();
+  reader.readAsText(file);
+  reader.onload = function () {
+    let importedFile;
+    try {
+      importedFile = JSON.parse(reader.result);
+    } catch {
+      alert("Invalid JSON file");
+      return;
+    }
+    importedFile.forEach(function (color) {
+      favoriteColors.push(color);
+    });
+    renderColors(importedFile);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  };
 });
 loadFavorites();
 updateColor();
