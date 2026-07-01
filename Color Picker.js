@@ -12,7 +12,8 @@ const themeBtn = document.getElementById("themeBtn");
 
 const favorites = document.getElementById("favorites");
 const favoriteColors = [];
-const clearColors = document.getElementById("clearColors");
+const clearFavoriteColors = document.getElementById("clearColors");
+const searchInput = document.getElementById("searchInput");
 
 function updateColor() {
   let color = colorInput.value;
@@ -23,16 +24,16 @@ function updateColor() {
 }
 function hexToRGB(hex) {
   hex = hex.replace("#", "");
-  let r = parseInt(color.substring(0, 2), 16);
-  let g = parseInt(color.substring(2, 4), 16);
-  let b = parseInt(color.substring(4, 6), 16);
+  let r = parseInt(hex.substring(0, 2), 16);
+  let g = parseInt(hex.substring(2, 4), 16);
+  let b = parseInt(hex.substring(4, 6), 16);
   return `(${r}, ${g}, ${b})`;
 }
 function hexToHSL(hex) {
   hex = hex.replace("#", "");
-  let r = parseInt(color.substring(0, 2), 16);
-  let g = parseInt(color.substring(2, 4), 16);
-  let b = parseInt(color.substring(4, 6), 16);
+  let r = parseInt(hex.substring(0, 2), 16);
+  let g = parseInt(hex.substring(2, 4), 16);
+  let b = parseInt(hex.substring(4, 6), 16);
   r /= 255;
   g /= 255;
   b /= 255;
@@ -97,12 +98,12 @@ function createFavoriteColor(color) {
   li.style.backgroundColor = color;
   let delBtn = document.createElement("button");
   delBtn.textContent = "❌";
-  delBtn.classList = "m-2";
+  delBtn.className = "m-2";
   delBtn.addEventListener("click", function (event) {
     event.stopPropagation();
     let shouldDel = confirm("Delete this color?");
     if (shouldDel) {
-      let index = favoriteColors.indexOf(favoriteColors);
+      let index = favoriteColors.indexOf(color);
       favoriteColors.splice(index, 1);
       localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
       li.remove();
@@ -117,7 +118,10 @@ function createFavoriteColor(color) {
 }
 saveBtn.addEventListener("click", function () {
   let color = colorInput.value;
-  favoriteColors.push(color);
+  if (!favoriteColors.includes(color)) {
+    favoriteColors.push(color);
+  } else return;
+
   createFavoriteColor(color);
   localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
 });
@@ -131,10 +135,23 @@ function loadFavorites() {
     createFavoriteColor(color);
   });
 }
-clearColors.addEventListener("click", function () {
+clearFavoriteColors.addEventListener("click", function () {
   favoriteColors.length = 0;
   localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
   favorites.innerHTML = "";
 });
+searchInput.addEventListener("input", function () {
+  let searchInputValue = searchInput.value.toLowerCase();
+  const filteredColors = favoriteColors.filter(function (color) {
+    return color.toLowerCase().includes(searchInputValue);
+  });
+  renderColors(filteredColors);
+});
+function renderColors(colorArray) {
+  favorites.innerHTML = "";
+  colorArray.forEach(function (color) {
+    createFavoriteColor(color);
+  });
+}
 loadFavorites();
 updateColor();
