@@ -14,6 +14,7 @@ const favorites = document.getElementById("favorites");
 const favoriteColors = [];
 const clearFavoriteColors = document.getElementById("clearColors");
 const searchInput = document.getElementById("searchInput");
+const exportBtn = document.getElementById("exportFile");
 
 function updateColor() {
   let color = colorInput.value;
@@ -153,5 +154,15 @@ function renderColors(colorArray) {
     createFavoriteColor(color);
   });
 }
+exportBtn.addEventListener("click", function () {
+  const blob = new Blob([JSON.stringify(favoriteColors)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "favoriteColors.JSON";
+  a.click();
+});
 loadFavorites();
 updateColor();
