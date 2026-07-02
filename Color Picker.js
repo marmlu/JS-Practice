@@ -162,11 +162,11 @@ exportBtn.addEventListener("click", function () {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "favoriteColors.JSON";
+  a.download = "favoriteColors.json";
   a.click();
   URL.revokeObjectURL(url);
 });
-importFile.addEventListener("input", function () {
+importFile.addEventListener("change", function () {
   const file = importFile.files[0];
   if (!file) {
     return;
@@ -174,18 +174,21 @@ importFile.addEventListener("input", function () {
   const reader = new FileReader();
   reader.readAsText(file);
   reader.onload = function () {
-    let importedFile;
+    let importedColors;
     try {
-      importedFile = JSON.parse(reader.result);
+      importedColors = JSON.parse(reader.result);
     } catch {
       alert("Invalid JSON file");
       return;
     }
-    importedFile.forEach(function (color) {
-      favoriteColors.push(color);
+    importedColors.forEach(function (color) {
+      if (!favoriteColors.includes(color)) {
+        favoriteColors.push(color);
+      }
     });
-    renderColors(importedFile);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
+    renderColors(favoriteColors);
   };
 });
 loadFavorites();
