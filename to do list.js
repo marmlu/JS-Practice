@@ -296,7 +296,9 @@ importInput.addEventListener("change", function () {
       return;
     }
     importedTasks.forEach(function (task) {
-      tasks.push(task);
+      if (!tasks.includes(task)) {
+        tasks.push(task);
+      }
     });
     renderTask(tasks);
     updateCounter();
