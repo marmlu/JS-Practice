@@ -93,6 +93,13 @@ randomBtn.addEventListener("click", function () {
   colorInput.value = randomValue;
   updateColor();
 });
+function showEmptyState() {
+  favorites.innerHTML = `
+    <p class="text-gray-500 p-4 text-center w-full">
+      No favorite colors yet 🎨
+    </p>
+  `;
+}
 function createFavoriteColor(color) {
   let li = document.createElement("li");
   li.className =
@@ -113,6 +120,9 @@ function createFavoriteColor(color) {
       favoriteColors.splice(index, 1);
       localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
       li.remove();
+      if (favoriteColors.length === 0) {
+        showEmptyState();
+      }
     }
   });
   li.appendChild(text);
@@ -134,7 +144,8 @@ saveBtn.addEventListener("click", function () {
 });
 function loadFavorites() {
   let savedColors = JSON.parse(localStorage.getItem("favoriteColors"));
-  if (!savedColors) {
+  if (!savedColors || savedColors.length === 0) {
+    showEmptyState();
     return;
   }
   savedColors.forEach(function (color) {
@@ -145,7 +156,7 @@ function loadFavorites() {
 clearFavoriteColors.addEventListener("click", function () {
   favoriteColors.length = 0;
   localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
-  favorites.innerHTML = "";
+  showEmptyState();
 });
 searchInput.addEventListener("input", function () {
   let searchInputValue = searchInput.value.toLowerCase();
