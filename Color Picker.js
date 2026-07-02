@@ -89,7 +89,6 @@ randomBtn.addEventListener("click", function () {
       randomValue += String.fromCharCode(87 + random);
     }
   }
-  console.log(randomValue);
   colorInput.value = randomValue;
   updateColor();
 });
@@ -100,7 +99,7 @@ function showEmptyState() {
     </p>
   `;
 }
-function createFavoriteColor(color) {
+function createFavoriteColorBtn(color) {
   let li = document.createElement("li");
   li.className =
     "relative flex flex-col justify-center items-center w-32 h-24 border border-gray-400 rounded-xl m-4 shadow-xl cursor-pointer hover:scale-105 transition duration-300";
@@ -119,10 +118,7 @@ function createFavoriteColor(color) {
       let index = favoriteColors.indexOf(color);
       favoriteColors.splice(index, 1);
       localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
-      li.remove();
-      if (favoriteColors.length === 0) {
-        showEmptyState();
-      }
+      renderColors(favoriteColors);
     }
   });
   let copyBtn = document.createElement("button");
@@ -144,28 +140,34 @@ function createFavoriteColor(color) {
 }
 saveBtn.addEventListener("click", function () {
   let color = colorInput.value;
-  if (!favoriteColors.includes(color)) {
-    favoriteColors.push(color);
-  } else return;
-
-  createFavoriteColor(color);
+  if (favoriteColors.includes(color)) {
+    return;
+  }
+  favoriteColors.push(color);
+  renderColors(favoriteColors);
   localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
 });
 function loadFavorites() {
-  let savedColors = JSON.parse(localStorage.getItem("favoriteColors"));
-  if (!savedColors || savedColors.length === 0) {
+  let savedColors = JSON.parse(localStorage.getItem("favoriteColors")) || [];
+  if (savedColors.length === 0) {
     showEmptyState();
     return;
   }
   savedColors.forEach(function (color) {
     favoriteColors.push(color);
-    createFavoriteColor(color);
   });
+  if (localStorage.getItem("theme") === "dark") {
+    document.documentElement.classList.add("dark");
+    themeBtn.innerHTML = "☀️ Light Mode";
+  } else {
+    themeBtn.innerHTML = "🌙 Dark Mode";
+  }
+  renderColors(favoriteColors);
 }
 clearFavoriteColors.addEventListener("click", function () {
   favoriteColors.length = 0;
   localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
-  showEmptyState();
+  renderColors(favoriteColors);
 });
 searchInput.addEventListener("input", function () {
   let searchInputValue = searchInput.value.toLowerCase();
@@ -176,8 +178,12 @@ searchInput.addEventListener("input", function () {
 });
 function renderColors(colorArray) {
   favorites.innerHTML = "";
+  if (colorArray.length === 0) {
+    showEmptyState();
+    return;
+  }
   colorArray.forEach(function (color) {
-    createFavoriteColor(color);
+    createFavoriteColorBtn(color);
   });
 }
 exportBtn.addEventListener("click", function () {
@@ -206,8 +212,12 @@ importFile.addEventListener("change", function () {
       alert("Invalid JSON file");
       return;
     }
+    if (!Array.isArray(importedColors)) {
+      alert("Invalid file");
+      return;
+    }
     importedColors.forEach(function (color) {
-      if (!favoriteColors.includes(color)) {
+      if (typeof color === "string" && !favoriteColors.includes(color)) {
         favoriteColors.push(color);
       }
     });
@@ -215,6 +225,17 @@ importFile.addEventListener("change", function () {
     localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors));
     renderColors(favoriteColors);
   };
+});
+themeBtn.addEventListener("click", function () {
+  document.documentElement.classList.toggle("dark");
+
+  if (document.documentElement.classList.contains("dark")) {
+    themeBtn.innerHTML = "☀️ Light Mode";
+    localStorage.setItem("theme", "dark");
+  } else {
+    themeBtn.innerHTML = "🌙 Dark Mode";
+    localStorage.setItem("theme", "light");
+  }
 });
 loadFavorites();
 updateColor();
