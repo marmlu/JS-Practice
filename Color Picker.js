@@ -125,8 +125,17 @@ function createFavoriteColor(color) {
       }
     }
   });
+  let copyBtn = document.createElement("button");
+  copyBtn.textContent = "📋";
+  copyBtn.className = "absolute bottom-1 right-1 text-sm";
+  copyBtn.addEventListener("click", function (event) {
+    event.stopPropagation();
+    navigator.clipboard.writeText(color);
+    alert("Color Copied");
+  });
   li.appendChild(text);
   li.appendChild(delBtn);
+  li.appendChild(copyBtn);
   li.addEventListener("click", function () {
     colorInput.value = color;
     updateColor();
