@@ -96,8 +96,12 @@ randomBtn.addEventListener("click", function () {
 function createFavoriteColor(color) {
   let li = document.createElement("li");
   li.className =
-    "flex justify-end items-center w-32 h-16 border border-gray-400 rounded-xl m-4";
+    "relative flex flex-col justify-center items-center w-32 h-24 border border-gray-400 rounded-xl m-4 shadow-xl cursor-pointer hover:scale-105 transition duration-300";
   li.style.backgroundColor = color;
+  let text = document.createElement("p");
+  text.textContent = color;
+  text.className =
+    "text-white font-bold bg-black/40 px-2 py-1 rounded-md text-sm";
   let delBtn = document.createElement("button");
   delBtn.textContent = "❌";
   delBtn.className = "m-2";
@@ -111,6 +115,7 @@ function createFavoriteColor(color) {
       li.remove();
     }
   });
+  li.appendChild(text);
   li.appendChild(delBtn);
   li.addEventListener("click", function () {
     colorInput.value = color;
